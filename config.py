@@ -20,14 +20,10 @@ ZONES = [
 ]
 
 # --- Capa 1: inmobiliarias conocidas, se scrapean directo cada 5 min ---
-LOCA_BARCELONA_ZONES = {
-    "Eixample": "https://www.locabarcelona.com/en/rental-agency-in-barcelona/apartment-eixample-barcelona/",
-    "Sagrada Familia": "https://www.locabarcelona.com/en/property-for-rent/sagrada-familia/",
-    "Poblenou": "https://www.locabarcelona.com/en/property-for-rent/poblenou/",
-    "El Clot": "https://www.locabarcelona.com/en/property-for-rent/el-clot/",
-    "Gracia": "https://www.locabarcelona.com/en/property-for-rent/gracia/",
-    "Barceloneta": "https://www.locabarcelona.com/en/property-for-rent/barceloneta/",
-    "Vila Olimpica": "https://www.locabarcelona.com/en/property-for-rent/vila-olimpica-del-poblenou/",
+# Loca Barcelona ya no usa una URL por barrio: esas páginas mezclaban corto
+# y largo plazo. Ahora sources/loca_barcelona.py pide una sola URL (la de
+# long-term rental) y separa por zona buscando el nombre del barrio en el
+# texto de cada card.
 }
 
 # Housfy quedó afuera de la Capa 1: pasó a cargar los resultados con
