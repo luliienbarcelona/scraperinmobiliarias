@@ -37,12 +37,13 @@ HOUSFY_ZONES = {
     "Barceloneta": "https://housfy.com/alquiler-inmuebles/barcelona/barcelona/ciutat-vella/la-barceloneta",
 }
 
-# --- Capa 2: búsqueda amplia (Google Programmable Search) para agarrar
-# inmobiliarias que no conocemos de antemano. Corre cada 1-2 horas (ver
-# .github/workflows/scrape_broad.yml) porque el tier gratis de Google
-# permite 100 consultas/día, y una por zona cada 5 min se pasaría rápido.
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
-GOOGLE_CSE_ID = os.environ.get("GOOGLE_CSE_ID", "")
+# --- Capa 2: búsqueda amplia (Brave Search API) para agarrar inmobiliarias
+# que no conocemos de antemano. Corre cada 4-6 horas (ver
+# .github/workflows/scrape_broad.yml). El tier gratis de Brave permite
+# 2000 consultas/mes; con 7 zonas cada 6 horas usamos ~840/mes, con margen.
+# (Google Custom Search se descartó: discontinuó "buscar en toda la web"
+# para buscadores nuevos, solo lo conservan los que ya lo tenían activado.)
+BRAVE_API_KEY = os.environ.get("BRAVE_API_KEY", "")
 BROAD_SEARCH_QUERIES = {
     zone: f"alquiler piso {zone} Barcelona larga estancia" for zone in ZONES
 }

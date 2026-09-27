@@ -10,15 +10,21 @@ en tus zonas). Corre solo en GitHub Actions (gratis). Tiene dos capas:
 Scrapea directo Loca Barcelona y Housfy, dos inmobiliarias reales que ya
 identificamos como confiables y fáciles de leer. Te avisa casi al instante.
 
-**Capa 2 — amplia (`main_broad.py`, cada 1 hora)**
-No se limita a sitios que conocemos: le pregunta a Google, zona por zona,
-qué inmobiliarias tienen indexado ("alquiler piso Poblenou Barcelona larga
-estancia", etc.) y revisa los resultados nuevos. Así agarra inmobiliarias
-chicas o que nunca vimos antes, como la de la Vila Olímpica que contactaste
-por mail. Corre cada 1 hora en vez de cada 5 min porque el tier gratis de
-Google permite 100 consultas/día.
+**Capa 2 — amplia (`main_broad.py`, cada 6 horas)**
+No se limita a sitios que conocemos: le pregunta a Brave Search, zona por
+zona, qué inmobiliarias tienen indexado ("alquiler piso Poblenou Barcelona
+larga estancia", etc.) y revisa los resultados nuevos. Así agarra
+inmobiliarias chicas o que nunca vimos antes, como la de la Vila Olímpica
+que contactaste por mail. Corre cada 6 horas en vez de cada 5 min porque el
+tier gratis de Brave permite 2000 consultas/mes (con 7 zonas cada 6 horas
+usamos ~840/mes, con margen de sobra).
 
-Cuando Google no muestra el precio o los m² en el resultado (pasa seguido),
+Se usa Brave y no Google porque Google discontinuó la opción "buscar en
+toda la web" para buscadores nuevos: solo la conservan los que ya la tenían
+activada de antes de ese cambio, así que no era una opción viable para armar
+esto ahora.
+
+Cuando Brave no muestra el precio o los m² en el resultado (pasa seguido),
 el piso se notifica igual, marcado como "revisar a mano", en vez de
 descartarlo silenciosamente.
 
@@ -26,7 +32,7 @@ descartarlo silenciosamente.
 
 Ninguna de las dos capas puede encontrar un piso que **nunca se publicó en
 ninguna página web** (por ejemplo, se ofreció solo boca a boca o por mail
-directo sin subirlo a ningún sitio). Tampoco aparece hasta que Google indexe
+directo sin subirlo a ningún sitio). Tampoco aparece hasta que Brave indexe
 esa página, lo cual a veces tarda días. Eso no tiene solución técnica, es un
 límite de la fuente, no del scraper.
 
@@ -56,26 +62,20 @@ En tu repo: **Settings → Secrets and variables → Actions → New repository 
 
 Con esto ya podés activar la Capa 1 (ver Paso 6).
 
-## Paso 4: Crear la API de Google Custom Search (para la Capa 2)
+## Paso 4: Crear la API key de Brave Search (para la Capa 2)
 
-Esto habilita la búsqueda amplia. Son dos partes:
+Esto habilita la búsqueda amplia.
 
-**Parte A — la API key:**
-1. Andá a [console.cloud.google.com](https://console.cloud.google.com/), creá
-   un proyecto (o usá uno existente).
-2. Buscá "Custom Search API" en el buscador de servicios y activala.
-3. Andá a "Credenciales" → "Crear credenciales" → "Clave de API". Copiala.
+1. Andá a [brave.com/search/api](https://brave.com/search/api/).
+2. Creá una cuenta (con mail y contraseña, no pide tarjeta para el plan gratis).
+3. Elegí el plan **"Free"** (Data for AI / Free tier, 2000 consultas/mes).
+4. Una vez adentro del dashboard, andá a "API Keys" y creá una nueva.
+5. Copiá la clave generada (un string largo de letras y números).
 
-**Parte B — el motor de búsqueda:**
-1. Andá a [programmablesearchengine.google.com](https://programmablesearchengine.google.com/).
-2. "Agregar", elegí "Buscar en toda la web".
-3. Creá el motor y copiá su **ID de motor de búsqueda** (Search engine ID / `cx`).
+## Paso 5: Cargar la secret de Brave
 
-## Paso 5: Cargar las secrets de Google
-
-Mismo lugar que el Paso 3:
-- `GOOGLE_API_KEY`: la clave de la Parte A.
-- `GOOGLE_CSE_ID`: el ID de la Parte B.
+Mismo lugar que el Paso 3 (Settings → Secrets and variables → Actions):
+- `BRAVE_API_KEY`: la clave del Paso 4.
 
 Si no cargás esto, la Capa 1 funciona igual; simplemente la Capa 2 se salta
 sola (lo vas a ver en los logs) hasta que la configures.
