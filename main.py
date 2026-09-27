@@ -6,7 +6,7 @@ Para la Capa 2 (búsqueda amplia vía Brave), ver main_broad.py.
 """
 import time
 
-from config import MAX_PRICE, MIN_M2, LOCA_BARCELONA_ZONES, FOTOCASA_ZONES, SEEN_FILE
+from config import MAX_PRICE, MIN_M2, FOTOCASA_ZONES, SEEN_FILE
 from dedupe import load_seen, save_seen
 from notify import send_telegram_message, format_listing_message
 from sources import loca_barcelona, fotocasa
@@ -38,8 +38,13 @@ def run_source(scrape_fn, zones: dict, all_listings: list):
 def main():
     all_listings = []
 
-    print("Scrapeando Loca Barcelona...")
-    run_source(loca_barcelona.scrape_zone, LOCA_BARCELONA_ZONES, all_listings)
+    print("Scrapeando Loca Barcelona (long term)...")
+    try:
+        found = loca_barcelona.scrape_all_zones()
+        print(f"  {len(found)} anuncios encontrados en tus zonas")
+        all_listings.extend(found)
+    except Exception as e:
+        print(f"  [ERROR] Loca Barcelona: {e}")
 
     print("Scrapeando Fotocasa...")
     run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings)
