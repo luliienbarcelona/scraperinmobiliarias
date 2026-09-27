@@ -2,20 +2,52 @@
 """
 Scraper para www.locabarcelona.com
 
-Cada card de propiedad en la página de listado es un <a> que envuelve un texto
-tipo "Available 01.12.2026 1.429€ Título del piso Barrio . Calle Property ID XXXXX".
-Los datos de m2/habitaciones vienen en el contenedor que sigue a ese link.
+Antes pedíamos una URL por barrio (property-for-rent/<zona>/), pero esas
+páginas mezclan alquileres de corto y largo plazo sin avisarlo en la card,
+por eso te estaban llegando anuncios short-term. En cambio, pedimos la
+única página que el sitio ya filtra por estado "long term rental"
+(property-status/long-term-rental/) y de ahí separamos por zona buscando
+el nombre del barrio en el texto de cada card.
 """
 import re
+import unicodedata
 import requests
 from bs4 import BeautifulSoup
 
-from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
+from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS, ZONES
+
+LONG_TERM_URL = "https://www.locabarcelona.com/en/property-status/long-term-rental/"
 
 PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m2', re.IGNORECASE)
 BED_RE = re.compile(r'(\d+)\s?Bedroom', re.IGNORECASE)
-REF_RE = re.compile(r'Property ID\s+(\S+)', re.IGNORECASE)
+
+# Alias en español/con o sin tilde para matchear el nombre del barrio en el
+# texto de la card (que viene en inglés en este sitio).
+ZONE_ALIASES = {
+    "Eixample": ["eixample"],
+    "Sagrada Familia": ["sagrada familia", "sagrada família"],
+    "Poblenou": ["poblenou", "poble nou"],
+    "El Clot": ["el clot", "clot"],
+    "Gracia": ["gracia", "gràcia"],
+    "Barceloneta": ["barceloneta"],
+    "Vila Olimpica": ["vila olimpica", "vila olímpica"],
+}
+
+
+def _normalize(s: str) -> str:
+    return "".join(
+        c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn"
+    ).lower()
+
+
+def _match_zone(text: str):
+    norm = _normalize(text)
+    for zone in ZONES:
+        for alias in ZONE_ALIASES.get(zone, [zone]):
+            if _normalize(alias) in norm:
+                return zone
+    return None
 
 
 def _looks_like_short_term(text: str) -> bool:
@@ -39,13 +71,16 @@ def _find_m2_and_beds(anchor):
     return None, None
 
 
-def scrape_zone(zone_name: str, url: str):
+def scrape_all_zones():
+    """Devuelve los anuncios de long-term rental que matchean alguna de
+    nuestras zonas configuradas (ZONES en config.py). Una sola request para
+    toda la ciudad, no una por barrio."""
     listings = []
     try:
-        resp = requests.get(url, headers=REQUEST_HEADERS, timeout=20)
+        resp = requests.get(LONG_TERM_URL, headers=REQUEST_HEADERS, timeout=20)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"[loca_barcelona] Error al pedir {url}: {e}")
+        print(f"[loca_barcelona] Error al pedir {LONG_TERM_URL}: {e}")
         return listings
 
     soup = BeautifulSoup(resp.text, "html.parser")
@@ -58,16 +93,19 @@ def scrape_zone(zone_name: str, url: str):
             continue
         text = a.get_text(" ", strip=True)
         price_match = PRICE_RE.search(text)
-        ref_match = REF_RE.search(text)
-        if not price_match or not ref_match:
+        if not price_match:
             continue
+
+        zone = _match_zone(text)
+        if zone is None:
+            continue  # no es ninguna de las zonas que te interesan
 
         seen_urls_this_page.add(href)
         price = float(price_match.group(1).replace(".", "").replace(",", "."))
         m2, beds = _find_m2_and_beds(a)
 
         listings.append({
-            "zone": zone_name,
+            "zone": zone,
             "title": text[:200],
             "price": price,
             "m2": m2,
