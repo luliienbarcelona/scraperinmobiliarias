@@ -9,7 +9,7 @@ import time
 from config import MAX_PRICE, MIN_M2, FOTOCASA_ZONES, SEEN_FILE
 from dedupe import load_seen, save_seen
 from notify import send_telegram_message, format_listing_message
-from sources import loca_barcelona, fotocasa
+from sources import loca_barcelona, fotocasa, finques_march, finques_bou, aproperties, finques_grau
 
 
 def passes_filters(listing: dict) -> bool:
@@ -35,16 +35,28 @@ def run_source(scrape_fn, zones: dict, all_listings: list):
         time.sleep(2)
 
 
+def run_citywide(scrape_fn, source_name: str, all_listings: list):
+    """Para scrapers que traen todas las zonas en una sola llamada (piden
+    una página citywide y filtran por barrio en el texto), en vez de una
+    URL por barrio."""
+    try:
+        found = scrape_fn()
+        print(f"  {source_name}: {len(found)} anuncios encontrados en tus zonas")
+        all_listings.extend(found)
+    except Exception as e:
+        print(f"  [ERROR] {source_name}: {e}")
+    time.sleep(2)
+
+
 def main():
     all_listings = []
 
-    print("Scrapeando Loca Barcelona (long term)...")
-    try:
-        found = loca_barcelona.scrape_all_zones()
-        print(f"  {len(found)} anuncios encontrados en tus zonas")
-        all_listings.extend(found)
-    except Exception as e:
-        print(f"  [ERROR] Loca Barcelona: {e}")
+    print("Scrapeando fuentes citywide (long term)...")
+    run_citywide(loca_barcelona.scrape_all_zones, "Loca Barcelona", all_listings)
+    run_citywide(finques_march.scrape_all_zones, "Finques March", all_listings)
+    run_citywide(finques_bou.scrape_all_zones, "Finques Bou", all_listings)
+    run_citywide(aproperties.scrape_all_zones, "aProperties", all_listings)
+    run_citywide(finques_grau.scrape_all_zones, "Finques Grau", all_listings)
 
     print("Scrapeando Fotocasa...")
     run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings)
