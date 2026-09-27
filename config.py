@@ -36,4 +36,5 @@ FOTOCASA_ZONES = {
     "El Clot": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/el-clot/l",
     "Gracia": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/gracia/l",
     "Barceloneta": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-barceloneta/l",
-    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/bar
+    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-vila-olimpica-del-poblenou/l",
+}
