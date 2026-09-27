@@ -24,7 +24,6 @@ ZONES = [
 # y largo plazo. Ahora sources/loca_barcelona.py pide una sola URL (la de
 # long-term rental) y separa por zona buscando el nombre del barrio en el
 # texto de cada card.
-}
 
 # Housfy quedó afuera de la Capa 1: pasó a cargar los resultados con
 # JavaScript y ya no se puede leer con requests (ver notas en el README).
@@ -37,33 +36,4 @@ FOTOCASA_ZONES = {
     "El Clot": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/el-clot/l",
     "Gracia": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/gracia/l",
     "Barceloneta": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-barceloneta/l",
-    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-vila-olimpica-del-poblenou/l",
-}
-
-# --- Capa 2: búsqueda amplia (Brave Search API) para agarrar inmobiliarias
-# que no conocemos de antemano. Corre cada 4-6 horas (ver
-# .github/workflows/scrape_broad.yml). El tier gratis de Brave permite
-# 2000 consultas/mes; con 7 zonas cada 6 horas usamos ~840/mes, con margen.
-# (Google Custom Search se descartó: discontinuó "buscar en toda la web"
-# para buscadores nuevos, solo lo conservan los que ya lo tenían activado.)
-BRAVE_API_KEY = os.environ.get("BRAVE_API_KEY", "")
-BROAD_SEARCH_QUERIES = {
-    zone: f"alquiler piso {zone} Barcelona larga estancia" for zone in ZONES
-}
-
-# --- Telegram (se completan como GitHub Secrets, no hardcodear acá) ---
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
-
-# --- Archivos donde se guardan los anuncios ya vistos (para no repetir notificaciones) ---
-SEEN_FILE = "seen_listings.json"
-SEEN_FILE_BROAD = "seen_broad.json"
-
-# --- Headers para simular un navegador real ---
-REQUEST_HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
-}
+    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/bar
