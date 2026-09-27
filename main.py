@@ -2,14 +2,14 @@
 """
 Capa 1: scraping directo de inmobiliarias conocidas (rápido y confiable).
 GitHub Actions lo llama cada 5 minutos (ver .github/workflows/scrape_fast.yml).
-Para la Capa 2 (búsqueda amplia vía Google), ver main_broad.py.
+Para la Capa 2 (búsqueda amplia vía Brave), ver main_broad.py.
 """
 import time
 
-from config import MAX_PRICE, MIN_M2, LOCA_BARCELONA_ZONES, HOUSFY_ZONES, SEEN_FILE
+from config import MAX_PRICE, MIN_M2, LOCA_BARCELONA_ZONES, FOTOCASA_ZONES, SEEN_FILE
 from dedupe import load_seen, save_seen
 from notify import send_telegram_message, format_listing_message
-from sources import loca_barcelona, housfy
+from sources import loca_barcelona, fotocasa
 
 
 def passes_filters(listing: dict) -> bool:
@@ -41,8 +41,8 @@ def main():
     print("Scrapeando Loca Barcelona...")
     run_source(loca_barcelona.scrape_zone, LOCA_BARCELONA_ZONES, all_listings)
 
-    print("Scrapeando Housfy...")
-    run_source(housfy.scrape_zone, HOUSFY_ZONES, all_listings)
+    print("Scrapeando Fotocasa...")
+    run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings)
 
     print(f"\nTotal de anuncios crudos encontrados: {len(all_listings)}")
 
