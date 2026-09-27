@@ -30,11 +30,18 @@ LOCA_BARCELONA_ZONES = {
     "Vila Olimpica": "https://www.locabarcelona.com/en/property-for-rent/vila-olimpica-del-poblenou/",
 }
 
-HOUSFY_ZONES = {
-    "Eixample": "https://housfy.com/alquiler-inmuebles/barcelona/barcelona/eixample",
-    "Poblenou": "https://housfy.com/alquiler-inmuebles/barcelona/barcelona/sant-marti/el-poblenou",
-    "Gracia": "https://housfy.com/alquiler-inmuebles/barcelona/barcelona/gracia",
-    "Barceloneta": "https://housfy.com/alquiler-inmuebles/barcelona/barcelona/ciutat-vella/la-barceloneta",
+# Housfy quedó afuera de la Capa 1: pasó a cargar los resultados con
+# JavaScript y ya no se puede leer con requests (ver notas en el README).
+HOUSFY_ZONES = {}
+
+FOTOCASA_ZONES = {
+    "Eixample": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/eixample/l",
+    "Sagrada Familia": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/sagrada-familia/l",
+    "Poblenou": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/el-poblenou/l",
+    "El Clot": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/el-clot/l",
+    "Gracia": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/gracia/l",
+    "Barceloneta": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-barceloneta/l",
+    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-vila-olimpica-del-poblenou/l",
 }
 
 # --- Capa 2: búsqueda amplia (Brave Search API) para agarrar inmobiliarias
