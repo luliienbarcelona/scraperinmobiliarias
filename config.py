@@ -53,6 +53,11 @@ NON_HOUSING_KEYWORDS = [
     "garaje en alquiler", "plaza de garaje", "alquiler de garaje",
     "alquiler garaje", "parking en alquiler",
     "trastero en alquiler", "alquiler de trastero", "alquiler trastero",
+    # Versiones cortas (sin "en alquiler" ni "alquiler de" adelante), para
+    # sitios que solo ponen el tipo de inmueble como etiqueta corta, tipo
+    # "Garaje - Eixample" en vez de "Garaje en alquiler en Eixample".
+    "garaje", "garatge", "plaza de aparcamiento", "plaza de parking",
+    "trastero", "nave industrial",
 ]
 
 ZONES = [
