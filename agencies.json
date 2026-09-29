@@ -151,7 +151,7 @@
     "max_pages": 1,
     "tier": 2,
     "active": true,
-    "last_scrape": null,
+    "last_scrape": "2026-09-29T17:29:08+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "HTML real, barato de scrapear. Auditoría 2026-09-29: siempre devolvió los mismos pisos de lujo en Passeig de Gràcia (8.000-11.000€), nada bajo 1600€ hasta ahora, pero se mantiene en Tier 2 por si cambia su inventario, no cuesta nada monitorearlo cada 15 min."
