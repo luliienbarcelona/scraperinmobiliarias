@@ -99,6 +99,38 @@
     "m2": 156.0,
     "price": 970000.0
   },
+  "https://www.api.cat/es/alquiler/garajes/barcelona/barcelona/zona-eixample/": {
+    "m2": 50.0,
+    "price": 100.0
+  },
+  "https://www.api.cat/es/alquiler/locales/barcelona/barcelona/zona-eixample/": {
+    "m2": 50.0,
+    "price": 100.0
+  },
+  "https://www.api.cat/es/alquiler/oficinas/barcelona/barcelona/zona-eixample/": {
+    "m2": 50.0,
+    "price": 100.0
+  },
+  "https://www.api.cat/es/alquiler/viviendas/barcelona/barcelona/2299066": {
+    "m2": 120.0,
+    "price": 8800.0
+  },
+  "https://www.api.cat/es/alquiler/viviendas/barcelona/barcelona/apis/": {
+    "m2": 50.0,
+    "price": 100.0
+  },
+  "https://www.api.cat/es/compra/viviendas/barcelona/barcelona/zona-eixample/": {
+    "m2": 50.0,
+    "price": 100.0
+  },
+  "https://www.api.cat/es/login-particulares": {
+    "m2": 120.0,
+    "price": 8800.0
+  },
+  "https://www.api.cat/es/login-particulares\r\n": {
+    "m2": 120.0,
+    "price": 74.0
+  },
   "https://www.donpiso.com/pisos-y-casas/305054_piso-en-alquiler-barcelona": {
     "m2": 90.0,
     "price": 8000.0
