@@ -49,6 +49,10 @@ KNOWN_NON_CANDIDATES = [
     # automático todavía no filtraba por precio plausible):
     "bcn-advisors.com", "carolinamarti.es", "immobarcelo.es",
     "withfor.com", "diagonal111.com",
+    # Confirmados a mano el 2026-09-30: urbanegroup.es es boutique de lujo
+    # (solo venta, 400k-3.9M€), y api.cat solo devolvía garajes/locales,
+    # nada de pisos (feedback directo de Luli).
+    "urbanegroup.es", "api.cat",
 ]
 
 PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
