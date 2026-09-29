@@ -1,4 +1,104 @@
 {
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/alquiler-espacios-de-despacho-para-compartir-varios-precios-y-tamanos/": {
+    "m2": 9.5,
+    "price": 400.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/balmes-124-2-habitaciones/": {
+    "m2": 75.0,
+    "price": 1000.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/carrer-comte-borrell115-coche-mediano/": {
+    "m2": 10.0,
+    "price": 100.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/carrer-sepulveda-plaza-moto/": {
+    "m2": 5.0,
+    "price": 45.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/carrer-sepulveda-plaza-pequena/": {
+    "m2": 12.0,
+    "price": 100.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/comte-borrell115-parking-moto/": {
+    "m2": 5.0,
+    "price": 45.0
+  },
+  "https://borsalloguers.com/alquiler/barcelona/barcelona/pis-de-lloguer-a-zona-sagrada-familia/": {
+    "m2": 190.0,
+    "price": 2850.0
+  },
+  "https://borsalloguers.com/inmuebles/": {
+    "m2": 10.0,
+    "price": 500.0
+  },
+  "https://fincasgaudi.com/": {
+    "m2": 156.0,
+    "price": 970000.0
+  },
+  "https://fincasgaudi.com/apartamento-en-barcelona-san-marti-con-ascensor-es1775763.html": {
+    "m2": 89.0,
+    "price": 1558.0
+  },
+  "https://fincasgaudi.com/apartamento-en-barcelona-vila-olimpica-con-ascensor-es1772418.html": {
+    "m2": 53.0,
+    "price": 1419.0
+  },
+  "https://fincasgaudi.com/apartamento-en-barcelona-vila-olimpica-con-ascensor-es1774624.html": {
+    "m2": 63.0,
+    "price": 398000.0
+  },
+  "https://fincasgaudi.com/apartamento-en-barcelona-vila-olimpica-con-ascensor-es1775770.html": {
+    "m2": 81.0,
+    "price": 1588.0
+  },
+  "https://fincasgaudi.com/atico-en-barcelona-vila-olimpica-con-ascensor-es1671239.html": {
+    "m2": 69.0,
+    "price": 560000.0
+  },
+  "https://fincasgaudi.com/atico-en-barcelona-vila-olimpica-con-ascensor-es1772411.html": {
+    "m2": 133.0,
+    "price": 2897.0
+  },
+  "https://fincasgaudi.com/atico-en-barcelona-vila-olimpica-con-piscina-es1377707.html": {
+    "m2": 129.0,
+    "price": 850000.0
+  },
+  "https://fincasgaudi.com/local-comercial-en-barcelona-san-marti-es1652777.html": {
+    "m2": 108.0,
+    "price": 300000.0
+  },
+  "https://fincasgaudi.com/lopd/": {
+    "m2": 156.0,
+    "price": 970000.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-eixample-esquerra-con-ascensor-es1776433.html": {
+    "m2": 83.0,
+    "price": 1250.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-san-marti-con-ascensor-es1772672.html": {
+    "m2": 85.0,
+    "price": 510000.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-vila-olimpica-con-ascensor-es1656193.html": {
+    "m2": 142.0,
+    "price": 680000.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-vila-olimpica-con-ascensor-es1748438.html": {
+    "m2": 113.0,
+    "price": 820000.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-vila-olimpica-con-piscina-es1695222.html": {
+    "m2": 122.0,
+    "price": 770000.0
+  },
+  "https://fincasgaudi.com/piso-en-barcelona-vila-olimpica-con-piscina-es1726929.html": {
+    "m2": 109.0,
+    "price": 2618.0
+  },
+  "https://fincasgaudi.com/triplex-en-barcelona-vila-olimpica-con-ascensor-es1726991.html": {
+    "m2": 156.0,
+    "price": 970000.0
+  },
   "https://www.donpiso.com/pisos-y-casas/305054_piso-en-alquiler-barcelona": {
     "m2": 90.0,
     "price": 8000.0
