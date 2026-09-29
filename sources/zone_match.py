@@ -12,13 +12,25 @@ import unicodedata
 from config import ZONES
 
 ZONE_ALIASES = {
-    "Eixample": ["eixample"],
+    # Eixample incluye sus sub-barrios oficiales (dreta, esquerra) y los dos
+    # barrios vecinos que Luli sumó como "también interesa" (Fort Pienc y
+    # Sant Antoni son barrios propios pero pegados al Eixample).
+    "Eixample": [
+        "eixample", "dreta de l'eixample", "dreta de leixample",
+        "antiga esquerra de l'eixample", "antiga esquerra de leixample",
+        "nova esquerra de l'eixample", "nova esquerra de leixample",
+        "esquerra de l'eixample", "esquerra de leixample",
+        "fort pienc", "sant antoni",
+    ],
     "Sagrada Familia": ["sagrada familia", "sagrada família"],
-    "Poblenou": ["poblenou", "poble nou"],
-    "El Clot": ["el clot", "clot"],
+    "Poblenou": [
+        "poblenou", "poble nou", "el poblenou",
+        "parc i la llacuna del poblenou", "parc i llacuna", "la llacuna",
+    ],
+    "El Clot": ["el clot", "clot", "camp de l'arpa", "camp de larpa", "camp de l'arpa del clot"],
     "Gracia": ["gracia", "gràcia"],
     "Barceloneta": ["barceloneta"],
-    "Vila Olimpica": ["vila olimpica", "vila olímpica"],
+    "Vila Olimpica": ["vila olimpica", "vila olímpica", "vila olímpica del poblenou"],
 }
 
 

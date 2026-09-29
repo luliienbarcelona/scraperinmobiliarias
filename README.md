@@ -1,112 +1,65 @@
 # Scraper de departamentos en Barcelona
 
-Busca pisos en alquiler de larga estancia en Barcelona y te avisa por
-Telegram cuando aparece uno nuevo que matchea tus filtros (≤1600€, ≥50m²,
-en tus zonas). Corre solo en GitHub Actions (gratis). Tiene dos capas:
+Busca pisos en alquiler de larga estancia en Barcelona y avisa por
+Telegram apenas aparece uno nuevo que pueda servir. Corre solo en GitHub
+Actions (gratis, repo público). Tiene tres capas:
 
-## Las dos capas
+## Las tres capas
 
-**Capa 1 — rápida (`main.py`, cada 5 min)**
-Scrapea directo Loca Barcelona y Housfy, dos inmobiliarias reales que ya
-identificamos como confiables y fáciles de leer. Te avisa casi al instante.
+**Tier 1 — rápida (`main.py`, cada 5 min)**
+Scrapea directo las inmobiliarias que ya verificamos a mano: hoy son Loca
+Barcelona, Finques March, Finques Bou, aProperties, Finques Grau, Selekta
+Properties, ShBarcelona y Finques Teixidor, más Fotocasa como portal. Cada
+una tiene su propio archivo en `sources/`.
 
-**Capa 2 — amplia (`main_broad.py`, cada 6 horas)**
-No se limita a sitios que conocemos: le pregunta a Brave Search, zona por
-zona, qué inmobiliarias tienen indexado ("alquiler piso Poblenou Barcelona
-larga estancia", etc.) y revisa los resultados nuevos. Así agarra
-inmobiliarias chicas o que nunca vimos antes, como la de la Vila Olímpica
-que contactaste por mail. Corre cada 6 horas en vez de cada 5 min porque el
-tier gratis de Brave permite 2000 consultas/mes (con 7 zonas cada 6 horas
-usamos ~840/mes, con margen de sobra).
+**Tier 2 — más cobertura, menos frecuente (`main_tier2.py`, cada 15 min)**
+Recorre las inmobiliarias del registro (`agencies.json`) marcadas como
+`"tier": 2` y `"active": true`, usando un scraper genérico
+(`sources/generic_agency.py`) en vez de un archivo por sitio. Así se puede
+ir sumando inmobiliarias sin escribir código nuevo cada vez.
 
-Se usa Brave y no Google porque Google discontinuó la opción "buscar en
-toda la web" para buscadores nuevos: solo la conservan los que ya la tenían
-activada de antes de ese cambio, así que no era una opción viable para armar
-esto ahora.
+**Discovery (`main_discovery.py`, 2 veces por día)**
+Busca inmobiliarias nuevas con Brave Search (zona por zona, por ejemplo
+"inmobiliaria Poblenou Barcelona alquiler"), no pisos sueltos. A cada
+dominio nuevo le hace un chequeo automático (¿tiene precio+m2 en el HTML,
+menciona alguna de tus zonas?) y si pasa lo suma a Tier 2 directo, sin
+esperar aprobación manual. Te avisa por Telegram qué sumó y qué descartó,
+para que quede auditable.
 
-Cuando Brave no muestra el precio o los m² en el resultado (pasa seguido),
-el piso se notifica igual, marcado como "revisar a mano", en vez de
-descartarlo silenciosamente.
+## El registro: `agencies.json`
 
-## El límite real que sigue existiendo
+Es la fuente de verdad de qué inmobiliarias conocemos, cuáles están
+activas, en qué tier, y notas de por qué se descartó cada una que no pasó
+el audit. Discovery y Tier 2 lo leen y lo actualizan solos (se commitea de
+vuelta al repo en cada corrida). Las fuentes de Tier 1 también están
+anotadas ahí, aunque tienen su propio archivo en `sources/` en vez de usar
+el scraper genérico.
 
-Ninguna de las dos capas puede encontrar un piso que **nunca se publicó en
-ninguna página web** (por ejemplo, se ofreció solo boca a boca o por mail
-directo sin subirlo a ningún sitio). Tampoco aparece hasta que Brave indexe
-esa página, lo cual a veces tarda días. Eso no tiene solución técnica, es un
-límite de la fuente, no del scraper.
+## Filtros
 
-## Paso 1: Crear el bot de Telegram
+- Máximo 1600€/mes, mínimo 50m² (`config.py`)
+- Zonas: Eixample (+ Dreta, Esquerra, Fort Pienc, Sant Antoni), Sagrada
+  Família, Poblenou (+ Parc i la Llacuna), El Clot (+ Camp de l'Arpa),
+  Gràcia, Barceloneta, Vila Olímpica
+- Solo alquiler de larga estancia (se descarta lo que dice "temporada",
+  "turístico", etc.)
+- Se rechaza solo si dice explícitamente "no se admiten mascotas"
 
-1. Abrí Telegram y buscá **@BotFather**.
-2. Mandale `/newbot`, elegí un nombre y un usuario (tiene que terminar en `bot`).
-3. Te va a dar un **token** tipo `123456789:ABCdefGhIJKlmNoPQRstuVwXYZ`. Guardalo.
-4. Buscá tu bot recién creado por su usuario y mandale cualquier mensaje.
-5. Andá a `https://api.telegram.org/bot<TU_TOKEN>/getUpdates` en el navegador.
-6. Ahí vas a ver un JSON con `"chat":{"id":123456789,...}`. Ese número es tu
-   **chat_id**.
+**Filosofía importante** (`filters.py`): un dato que falta (precio, m²,
+tipo de alquiler, mascotas) nunca es motivo de descarte por sí solo. Solo
+se rechaza cuando hay una señal explícita de que no sirve. Todo lo demás
+se manda a Telegram marcado como "desconocido" en vez de perderse.
 
-## Paso 2: Crear el repositorio en GitHub
+## Archivos que NO hay que pisar
 
-1. Entrá a github.com, creá una cuenta si no tenés.
-2. "New repository", ponele un nombre (ej. `apartment-scraper`).
-3. **Dejalo público** (así los Actions son gratis e ilimitados).
-4. Subí todos los archivos de esta carpeta: "Add file" → "Upload files",
-   arrastrando toda la carpeta (incluida la carpeta oculta `.github`).
+`seen_listings.json`, `seen_tier2.json`, `seen_broad.json` y
+`agencies.json` los actualiza el bot solo en cada corrida (con
+last_scrape, precios ya vistos, etc). Si subís una versión vieja desde tu
+compu vas a perder ese historial y capaz te llegan notificaciones
+repetidas.
 
-## Paso 3: Cargar las secrets básicas (necesarias para la Capa 1)
+## Secrets necesarios (Settings → Secrets → Actions)
 
-En tu repo: **Settings → Secrets and variables → Actions → New repository secret**.
-- `TELEGRAM_BOT_TOKEN`: el token del Paso 1.
-- `TELEGRAM_CHAT_ID`: tu chat_id del Paso 1.
-
-Con esto ya podés activar la Capa 1 (ver Paso 6).
-
-## Paso 4: Crear la API key de Brave Search (para la Capa 2)
-
-Esto habilita la búsqueda amplia.
-
-1. Andá a [brave.com/search/api](https://brave.com/search/api/).
-2. Creá una cuenta (con mail y contraseña, no pide tarjeta para el plan gratis).
-3. Elegí el plan **"Free"** (Data for AI / Free tier, 2000 consultas/mes).
-4. Una vez adentro del dashboard, andá a "API Keys" y creá una nueva.
-5. Copiá la clave generada (un string largo de letras y números).
-
-## Paso 5: Cargar la secret de Brave
-
-Mismo lugar que el Paso 3 (Settings → Secrets and variables → Actions):
-- `BRAVE_API_KEY`: la clave del Paso 4.
-
-Si no cargás esto, la Capa 1 funciona igual; simplemente la Capa 2 se salta
-sola (lo vas a ver en los logs) hasta que la configures.
-
-## Paso 6: Activar los scrapers
-
-1. Pestaña **Actions** de tu repo. Si pregunta si habilitar workflows, sí.
-2. Vas a ver dos workflows en la lista: "Scraper rapido" y "Scraper amplio".
-3. Entrá a cada uno y click "Run workflow" para probarlo a mano una vez.
-4. Revisá los logs de cada corrida para confirmar que encontró anuncios y
-   que no hubo errores.
-
-Si todo salió bien, de ahí en más corren solos.
-
-## Cómo ajustar filtros
-
-Todo lo que probablemente quieras cambiar está en `config.py`:
-- `MAX_PRICE` y `MIN_M2`.
-- `ZONES`: la lista de barrios (alimenta la Capa 2 automáticamente).
-- `LOCA_BARCELONA_ZONES` / `HOUSFY_ZONES`: URLs de la Capa 1 por barrio.
-
-## Si querés sumar una inmobiliaria puntual
-
-Si conocés una agencia en particular (como la de la Vila Olímpica) y su sitio
-tiene una página de listado propia, pasame la URL y le armo un scraper
-dedicado para la Capa 1, así la tenés cubierta cada 5 minutos en vez de
-esperar a que la agarre la búsqueda amplia.
-
-## Si algo se rompe
-
-Los sitios cambian de estructura de vez en cuando. Estos scrapers están
-armados según cómo se veían los sitios el 26/09/2026. Si en algún momento
-dejan de traer resultados que sabés que existen, pasame el link de la zona
-que no anda y el log de error, y lo reviso.
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `BRAVE_API_KEY` (solo lo usa discovery)

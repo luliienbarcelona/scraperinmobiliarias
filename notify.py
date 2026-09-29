@@ -24,19 +24,50 @@ def send_telegram_message(text: str):
         print(f"[notify] Error enviando a Telegram: {e}")
 
 
-def format_listing_message(listing: dict) -> str:
-    beds = listing.get("beds")
-    beds_txt = f"{beds} hab. · " if beds else ""
-    m2 = listing.get("m2")
-    m2_txt = f"{m2:.0f}m² · " if m2 else "m² sin confirmar · "
-    price = listing.get("price")
-    price_txt = f"{price:.0f}€/mes" if price is not None else "precio sin confirmar"
-    review_txt = "\n⚠️ Revisar a mano (no se pudo leer precio o m² del snippet)" if listing.get("needs_review") else ""
+_RENTAL_TYPE_TXT = {
+    "long_term": "Larga estancia",
+    "short_term": "Corto plazo",
+    "unknown": "⚠️ Desconocido",
+}
 
-    return (
-        f"🏠 <b>Nuevo piso en {listing['zone']}</b>\n"
-        f"{m2_txt}{beds_txt}{price_txt}\n"
-        f"Fuente: {listing['source']}\n"
-        f"{listing['url']}"
-        f"{review_txt}"
-    )
+_PETS_TXT = {
+    "allowed": "Sí se aceptan",
+    "unspecified": "No especificado",
+    "rejected": "No se aceptan",
+}
+
+
+def format_listing_message(listing: dict, status: str = "new") -> str:
+    """status: "new" (piso nuevo) o "price_drop" (ya lo conocíamos, bajó de precio)."""
+    zone = listing.get("zone", "?")
+    price = listing.get("price")
+    price_txt = f"{price:.0f}€/mes" if price is not None else "⚠️ Desconocido"
+    m2 = listing.get("m2")
+    m2_txt = f"{m2:.0f}m²" if m2 is not None else "⚠️ Desconocido"
+    beds = listing.get("beds")
+    rental_type = _RENTAL_TYPE_TXT.get(listing.get("rental_type", "unknown"), "⚠️ Desconocido")
+    source = listing.get("source", "?")
+    url = listing.get("url", "")
+
+    header = "🚨 <b>NUEVO PISO</b>" if status == "new" else "💸 <b>BAJÓ DE PRECIO</b>"
+
+    lines = [
+        header,
+        "",
+        f"📍 {zone}",
+        f"💰 {price_txt}",
+        f"📐 {m2_txt}",
+    ]
+    if beds:
+        lines.append(f"🛏 {beds} hab.")
+    lines.append(f"🏠 {rental_type}")
+    pets_txt = _PETS_TXT.get(listing.get("pets_status", "unspecified"), "No especificado")
+    lines.append(f"🐶 Mascotas: {pets_txt}")
+    lines.append(f"🏢 {source}")
+    lines.append("")
+    lines.append(f"🔗 {url}")
+
+    if listing.get("needs_review"):
+        lines.append("\n⚠️ Revisar a mano (no se pudo confirmar precio o m² del snippet)")
+
+    return "\n".join(lines)

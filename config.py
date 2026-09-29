@@ -6,12 +6,39 @@ Para agregar o quitar una zona, o cambiar el presupuesto, tocá solo este archiv
 import os
 
 # --- Filtros de búsqueda ---
-MAX_PRICE = 1600
-MIN_M2 = 50
+MAX_PRICE = 1600          # euros/mes
+MIN_M2 = 50                # metros cuadrados
 EXCLUDE_KEYWORDS = [
     "short-term", "short term", "temporal", "temporada",
     "per night", "por noche", "vacacional", "turístico", "turistico",
     "leisure", "holiday", "vacation",
+]
+
+# Frases que indican explícitamente que NO se aceptan mascotas. Si un anuncio
+# no dice nada de mascotas, no se rechaza (ver filters.py: dato faltante
+# nunca es motivo de rechazo).
+PETS_REJECT_KEYWORDS = [
+    "no se admiten mascotas", "no admite mascotas", "no mascotas",
+    "sin mascotas", "prohibido mascotas", "no pets", "pets not allowed",
+    "no animales", "sense mascotes", "no es permeten mascotes",
+    "not allowed pets",
+]
+
+# Si dice explícitamente que sí se aceptan, lo mostramos en el mensaje en
+# vez de "no especificado" (pero esto nunca se usa para filtrar).
+PETS_OK_KEYWORDS = [
+    "se admiten mascotas", "mascotas permitidas", "pet friendly",
+    "pets allowed", "admite mascotas", "es permeten mascotes",
+]
+
+# Frases que indican que el alquiler es de larga estancia (uso para marcar
+# el tipo de alquiler como conocido en vez de "desconocido" en el mensaje
+# de Telegram; no se usa para filtrar, EXCLUDE_KEYWORDS ya se encarga de
+# rechazar lo que es claramente corto plazo).
+LONG_TERM_HINTS = [
+    "larga estancia", "larga duracion", "larga duración",
+    "vivienda habitual", "long term", "long-term", "arrendamiento habitual",
+    "residencial", "uso residencial",
 ]
 
 ZONES = [
@@ -19,6 +46,14 @@ ZONES = [
     "Gracia", "Barceloneta", "Vila Olimpica",
 ]
 
+# --- Capa 1: inmobiliarias conocidas, se scrapean directo cada 5 min ---
+# Loca Barcelona ya no usa una URL por barrio: esas páginas mezclaban corto
+# y largo plazo. Ahora sources/loca_barcelona.py pide una sola URL (la de
+# long-term rental) y separa por zona buscando el nombre del barrio en el
+# texto de cada card.
+
+# Housfy quedó afuera de la Capa 1: pasó a cargar los resultados con
+# JavaScript y ya no se puede leer con requests (ver notas en el README).
 HOUSFY_ZONES = {}
 
 FOTOCASA_ZONES = {
@@ -28,20 +63,30 @@ FOTOCASA_ZONES = {
     "El Clot": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/el-clot/l",
     "Gracia": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/gracia/l",
     "Barceloneta": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-barceloneta/l",
-    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-vila-olimpica-del-poblenou/l"
+    "Vila Olimpica": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/la-vila-olimpica-del-poblenou/l",
 }
 
+# --- Capa 2: búsqueda amplia (Brave Search API) para agarrar inmobiliarias
+# que no conocemos de antemano. Corre cada 4-6 horas (ver
+# .github/workflows/scrape_broad.yml). El tier gratis de Brave permite
+# 2000 consultas/mes; con 7 zonas cada 6 horas usamos ~840/mes, con margen.
+# (Google Custom Search se descartó: discontinuó "buscar en toda la web"
+# para buscadores nuevos, solo lo conservan los que ya lo tenían activado.)
 BRAVE_API_KEY = os.environ.get("BRAVE_API_KEY", "")
 BROAD_SEARCH_QUERIES = {
     zone: f"alquiler piso {zone} Barcelona larga estancia" for zone in ZONES
 }
 
+# --- Telegram (se completan como GitHub Secrets, no hardcodear acá) ---
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 
-SEEN_FILE = "seen_listings.json"
-SEEN_FILE_BROAD = "seen_broad.json"
+# --- Archivos donde se guardan los anuncios ya vistos (para no repetir notificaciones) ---
+SEEN_FILE = "seen_listings.json"          # Tier 1 (cada 5 min)
+SEEN_FILE_TIER2 = "seen_tier2.json"       # Tier 2 (cada ~15 min, registro en agencies.json)
+SEEN_FILE_BROAD = "seen_broad.json"       # ya no se usa (broad search viejo); queda por compatibilidad
 
+# --- Headers para simular un navegador real ---
 REQUEST_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
