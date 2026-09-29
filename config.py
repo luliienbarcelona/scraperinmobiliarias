@@ -41,6 +41,20 @@ LONG_TERM_HINTS = [
     "residencial", "uso residencial",
 ]
 
+# Luli busca PISOS para vivir, no locales/oficinas/garajes/trasteros que a
+# veces se cuelan porque comparten sitio web con las viviendas. Si el texto
+# dice explícitamente que es uno de estos, se rechaza (mismo criterio que
+# EXCLUDE_KEYWORDS: solo se descarta por señal explícita).
+NON_HOUSING_KEYWORDS = [
+    "local comercial", "local en alquiler", "local para alquilar",
+    "alquiler de local", "alquiler local",
+    "oficina en alquiler", "alquiler de oficina", "alquiler oficina",
+    "nave industrial", "alquiler de nave", "alquiler nave",
+    "garaje en alquiler", "plaza de garaje", "alquiler de garaje",
+    "alquiler garaje", "parking en alquiler",
+    "trastero en alquiler", "alquiler de trastero", "alquiler trastero",
+]
+
 ZONES = [
     "Eixample", "Sagrada Familia", "Poblenou", "El Clot",
     "Gracia", "Barceloneta", "Vila Olimpica",

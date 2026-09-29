@@ -15,6 +15,7 @@ descartado en silencio.
 from config import (
     MAX_PRICE, MIN_M2, EXCLUDE_KEYWORDS,
     PETS_REJECT_KEYWORDS, PETS_OK_KEYWORDS, LONG_TERM_HINTS,
+    NON_HOUSING_KEYWORDS,
 )
 
 
@@ -26,6 +27,8 @@ def enrich_listing(listing: dict) -> dict:
     """Agrega flags al listing para el mensaje de Telegram. No filtra nada,
     solo anota lo que se pudo inferir del texto disponible."""
     text = _text_of(listing)
+
+    listing["is_non_housing"] = any(kw in text for kw in NON_HOUSING_KEYWORDS)
 
     listing["pets_rejected"] = any(kw in text for kw in PETS_REJECT_KEYWORDS)
     if listing["pets_rejected"]:
@@ -51,6 +54,8 @@ def passes_filters(listing: dict) -> bool:
     enrich_listing(listing)
 
     if listing.get("is_short_term"):
+        return False
+    if listing["is_non_housing"]:
         return False
     if listing["pets_rejected"]:
         return False
