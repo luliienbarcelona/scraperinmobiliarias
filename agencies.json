@@ -1223,5 +1223,52 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página)."
-  }
+  },
+        {
+        "name": "Tecnocasa",
+        "domain": "tecnocasa.es",
+        "rental_url": "https://www.tecnocasa.es/alquiler/piso/cataluna/barcelona/barcelona.html",
+        "source_type": "agency",
+        "scraper_type": "sitemap",
+        "module": null,
+        "tier": 2,
+        "active": true,
+        "last_scrape": null,
+        "last_new_listing": null,
+        "failure_count": 0,
+        "notes": "Activada 2026-09-30 con scraper de sitemap nuevo (sources/sitemap_agency.py): el listado carga por JS pero el sitemap trae la URL de cada ficha individual, y la ficha sí es HTML server-side. url_filter_pattern=\"/alquiler/\" es un supuesto basado en que sus URLs de categoria ya usan ese prefijo (ej. /alquiler/piso/...); no pude confirmarlo bajando el sitemap real porque mis herramientas no pueden leer el .gz desde este entorno. Revisar el primer log de Tier 2 despues de este cambio: si trae pisos EN VENTA o de otras ciudades, hay que ajustar el patron o agregar un chequeo de texto (ademas del de la URL).",
+        "sitemap_urls": [
+          "https://www.tecnocasa.es/sitemap/inmuebles-0.xml.gz",
+          "https://www.tecnocasa.es/sitemap/inmuebles-1.xml.gz"
+        ],
+        "url_filter_pattern": "/alquiler/",
+        "max_new_per_run": 40
+      },
+      {
+        "name": "Skyflats Barcelona",
+        "domain": "skyflats.es",
+        "rental_url": "https://www.skyflats.es/pisos-alquiler-barceloneta",
+        "source_type": "agency",
+        "scraper_type": null,
+        "module": null,
+        "tier": null,
+        "active": false,
+        "last_scrape": null,
+        "last_new_listing": null,
+        "failure_count": 0,
+        "notes": "DESCARTADA definitivamente 2026-09-30: confirmado que el precio no esta en ningun HTML propio del sitio, ni en el listado ni en una ficha con URL propia. Para ver precio hay que ir a Idealista (deriva ahi directo) o pedir info por formulario. No hay nada que un scraper pueda leer sin pasar por Idealista."
+      },
+      {
+        "name": "Fincas Gilser",
+        "domain": "fincasgilser.com",
+        "rental_url": "https://fincasgilser.com/propiedades/alquiler/viviendas",
+        "source_type": "agency",
+        "scraper_type": null,
+        "module": null,
+        "tier": null,
+        "active": false,
+        "last_scrape": null,
+        "last_new_listing": null,
+        "failure_count": 0,
+        "notes": "PENDIENTE 2026-09-30: la URL vieja daba 404, la correcta es propiedades/alquiler/viviendas. Ahi mismo confirme que la pestaña \"Alquiler\" esta mostrando 0 propiedades hoy (solo hay 2 en venta
 ]
