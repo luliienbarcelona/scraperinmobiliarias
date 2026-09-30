@@ -15,14 +15,19 @@ from dedupe import load_seen, save_seen, check_listing, remember
 from filters import passes_filters
 from notify import send_telegram_message, format_listing_message
 from agencies_registry import load_registry, save_registry, mark_scraped
-from sources import generic_agency
+from sources import generic_agency, sitemap_agency
+
+SCRAPERS = {
+    "generic": generic_agency.scrape_agency,
+    "sitemap": sitemap_agency.scrape_agency,
+}
 
 
 def main():
     entries = load_registry()
     tier2_entries = [
         e for e in entries
-        if e.get("tier") == 2 and e.get("active") and e.get("scraper_type") == "generic"
+        if e.get("tier") == 2 and e.get("active") and e.get("scraper_type") in SCRAPERS
     ]
 
     print(f"Inmobiliarias Tier 2 activas: {len(tier2_entries)}")
@@ -36,7 +41,7 @@ def main():
     for entry in tier2_entries:
         print(f"Scrapeando {entry['name']}...")
         try:
-            listings, ok = generic_agency.scrape_agency(entry)
+            listings, ok = SCRAPERS[entry["scraper_type"]](entry)
         except Exception as e:
             print(f"  [ERROR] {entry['name']}: {e}")
             listings, ok = [], False
