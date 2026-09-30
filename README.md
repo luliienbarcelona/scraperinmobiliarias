@@ -45,6 +45,15 @@ seguido). No espera aprobación manual para activar una fuente nueva, pero
 SIEMPRE avisa por Telegram qué sumó (y por cuál método) y qué descartó,
 para que quede auditable.
 
+Las búsquedas en Brave rotan: hay un pool de ~60 combinaciones de zona +
+frase de búsqueda (7 zonas + 5 sub-barrios específicos, x 5 frases
+distintas), y cada corrida prueba solo una tanda de 24, no todo el pool.
+La próxima corrida sigue donde dejó la anterior (el puntero se guarda en
+`discovery_state.json`). Así, en vez de repetir siempre las mismas 21
+búsquedas de antes, en ~2-3 corridas ya recorrió todo el pool una vez y
+arranca de nuevo, sin pasarse del límite gratis de Brave (2000
+consultas/mes: con 24 x 2 corridas/día quedan ~1440/mes, con margen).
+
 ## El registro: `agencies.json`
 
 Es la fuente de verdad de qué inmobiliarias conocemos, cuáles están
@@ -72,10 +81,11 @@ se manda a Telegram marcado como "desconocido" en vez de perderse.
 ## Archivos que NO hay que pisar
 
 `seen_listings.json`, `seen_tier2.json`, `seen_broad.json`,
-`sitemap_seen.json` y `agencies.json` los actualiza el bot solo en cada
-corrida (con last_scrape, precios ya vistos, fichas de sitemap ya
-evaluadas, etc). Si subís una versión vieja desde tu compu vas a perder
-ese historial y capaz te llegan notificaciones repetidas.
+`sitemap_seen.json`, `discovery_state.json` y `agencies.json` los
+actualiza el bot solo en cada corrida (con last_scrape, precios ya
+vistos, fichas de sitemap ya evaluadas, qué tanda de búsquedas sigue,
+etc). Si subís una versión vieja desde tu compu vas a perder ese
+historial y capaz te llegan notificaciones repetidas.
 
 ## Secrets necesarios (Settings → Secrets → Actions)
 

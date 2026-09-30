@@ -23,6 +23,8 @@ main_tier2_js.py (scraper_type playwright, cada 30 min) sepan cuál usar.
 Si no pasa por ninguno, igual queda anotada (inactiva) para no
 re-evaluar el mismo dominio en cada corrida.
 """
+import json
+import os
 import re
 import gzip
 
@@ -38,6 +40,8 @@ DISCOVERY_QUERY_TEMPLATES = [
     "inmobiliaria {zone} Barcelona alquiler pisos",
     "pisos en alquiler {zone} Barcelona inmobiliaria web",
     "administrador de fincas alquiler pisos {zone} Barcelona web propia",
+    "pisos en alquiler particular {zone} Barcelona",
+    "agencia inmobiliaria pisos alquiler {zone} Barcelona contacto",
 ]
 # OJO: "administració finques X lloguer" (a secas) se sacó: en la práctica
 # trae sobre todo administradores de comunidades de vecinos, que no
@@ -45,6 +49,62 @@ DISCOVERY_QUERY_TEMPLATES = [
 # no inventario para alquilar). La versión con "alquiler pisos ... web
 # propia" trae mejores resultados, así encontramos Finques Teixidor y
 # borsalloguers.com a mano.
+
+# Sub-barrios que te interesan pero que config.ZONES no incluye como
+# término de búsqueda propio (ahí solo están para el matching de texto,
+# vía ZONE_ALIASES). Para discovery sí conviene buscarlos por su nombre
+# específico: Brave da resultados distintos para "Fort Pienc" que para
+# "Eixample" a secas, y así encontramos inmobiliarias más chicas y
+# especializadas que quedan tapadas por las grandes cuando buscás el
+# nombre del barrio madre.
+DISCOVERY_EXTRA_ZONES = [
+    "Fort Pienc", "Sant Antoni", "Parc i la Llacuna",
+    "Vila Olímpica del Poblenou", "Camp de l'Arpa",
+]
+
+# Pool completo de combinaciones (zona, template). OJO con el presupuesto
+# de Brave (free tier: 2000 consultas/mes): NO hay que recorrer todo este
+# pool en cada corrida, hay que rotar (ver ROTATION_BATCH_SIZE más abajo)
+# para no pasarse del límite gratis.
+ALL_QUERY_COMBOS = [
+    (zone, template)
+    for zone in (ZONES + DISCOVERY_EXTRA_ZONES)
+    for template in DISCOVERY_QUERY_TEMPLATES
+]
+
+# Cuántas combinaciones probar POR CORRIDA. Con 24/corrida x 2
+# corridas/día x 30 días = 1440 consultas/mes, deja margen contra el tope
+# de 2000. El pool completo (60 combos con 12 zonas x 5 templates) se
+# termina de recorrer en ~2.5 corridas (~1.25 días), y después arranca de
+# nuevo desde el principio: así cada corrida prueba algo distinto en vez
+# de repetir siempre las mismas 21 consultas de antes.
+ROTATION_BATCH_SIZE = 24
+DISCOVERY_STATE_FILE = "discovery_state.json"
+
+
+def _load_rotation_offset() -> int:
+    if not os.path.exists(DISCOVERY_STATE_FILE):
+        return 0
+    try:
+        with open(DISCOVERY_STATE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("query_offset", 0)
+    except (json.JSONDecodeError, OSError):
+        return 0
+
+
+def _save_rotation_offset(offset: int):
+    with open(DISCOVERY_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump({"query_offset": offset % len(ALL_QUERY_COMBOS)}, f)
+
+
+def _next_query_batch():
+    """Devuelve la tanda de (zona, template) para esta corrida, y avanza
+    (y guarda) el puntero de rotación para la próxima."""
+    offset = _load_rotation_offset()
+    total = len(ALL_QUERY_COMBOS)
+    batch = [ALL_QUERY_COMBOS[(offset + i) % total] for i in range(min(ROTATION_BATCH_SIZE, total))]
+    _save_rotation_offset(offset + ROTATION_BATCH_SIZE)
+    return batch
 
 # Portales/agregadores y sitios ya evaluados a mano que no queremos que
 # discovery proponga de nuevo (duplicaría lo que ya está en agencies.json,
@@ -94,9 +154,12 @@ def _domain_of(url: str) -> str:
 
 
 def search_candidate_domains():
-    """Devuelve una lista de (domain, url) únicos por dominio, recorriendo
-    todas las zonas. No filtra por lo que ya está en el registro (eso lo
-    hace main_discovery.py, que sí conoce agencies.json)."""
+    """Devuelve una lista de (domain, url) únicos por dominio. En vez de
+    recorrer siempre las mismas zona x template, usa una tanda rotada del
+    pool completo (ALL_QUERY_COMBOS) para no repetir exactamente lo mismo
+    en cada corrida (ver ROTATION_BATCH_SIZE). No filtra por lo que ya
+    está en el registro (eso lo hace main_discovery.py, que sí conoce
+    agencies.json)."""
     seen_domains = set()
     candidates = []
 
@@ -105,28 +168,29 @@ def search_candidate_domains():
         return candidates
 
     headers = {"Accept": "application/json", "X-Subscription-Token": BRAVE_API_KEY}
+    batch = _next_query_batch()
+    print(f"[discover_agencies] Probando {len(batch)} combinaciones de esta tanda (de {len(ALL_QUERY_COMBOS)} en total)")
 
-    for zone in ZONES:
-        for template in DISCOVERY_QUERY_TEMPLATES:
-            query = template.format(zone=zone)
-            params = {"q": query, "count": 10, "country": "es", "search_lang": "es"}
-            try:
-                resp = requests.get(SEARCH_URL, headers=headers, params=params, timeout=20)
-                resp.raise_for_status()
-                data = resp.json()
-            except requests.RequestException as e:
-                print(f"  [ERROR] Brave para '{query}': {e}")
+    for zone, template in batch:
+        query = template.format(zone=zone)
+        params = {"q": query, "count": 10, "country": "es", "search_lang": "es"}
+        try:
+            resp = requests.get(SEARCH_URL, headers=headers, params=params, timeout=20)
+            resp.raise_for_status()
+            data = resp.json()
+        except requests.RequestException as e:
+            print(f"  [ERROR] Brave para '{query}': {e}")
+            continue
+
+        for item in data.get("web", {}).get("results", []):
+            url = item.get("url", "")
+            domain = _domain_of(url)
+            if not domain or domain in seen_domains:
                 continue
-
-            for item in data.get("web", {}).get("results", []):
-                url = item.get("url", "")
-                domain = _domain_of(url)
-                if not domain or domain in seen_domains:
-                    continue
-                if any(known in domain for known in KNOWN_NON_CANDIDATES):
-                    continue
-                seen_domains.add(domain)
-                candidates.append((domain, url))
+            if any(known in domain for known in KNOWN_NON_CANDIDATES):
+                continue
+            seen_domains.add(domain)
+            candidates.append((domain, url))
 
     return candidates
 
