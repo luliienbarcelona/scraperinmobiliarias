@@ -28,6 +28,7 @@ jobs:
           git config user.name "apartment-scraper-bot"
           git config user.email "actions@github.com"
           git add seen_tier2.json agencies.json
+          [ -f sitemap_seen.json ] && git add sitemap_seen.json || true
           git diff --staged --quiet || git commit -m "Actualizar Tier 2 [skip ci]"
           git pull --rebase origin main
           git push
