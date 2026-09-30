@@ -151,7 +151,7 @@
     "max_pages": 1,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-09-30T19:10:10+00:00",
+    "last_scrape": "2026-09-30T19:25:28+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "HTML real, barato de scrapear. Auditoría 2026-09-29: siempre devolvió los mismos pisos de lujo en Passeig de Gràcia (8.000-11.000€), nada bajo 1600€ hasta ahora, pero se mantiene en Tier 2 por si cambia su inventario, no cuesta nada monitorearlo cada 15 min."
@@ -390,7 +390,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-09-30T19:10:14+00:00",
+    "last_scrape": "2026-09-30T19:25:32+00:00",
     "last_new_listing": "2026-09-29T17:38:32+00:00",
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-09-29: discovery la había rechazado por error (miró una URL sin listado en vez de la home). La home sí tiene un piso en Vila Olímpica a 1.588€/81m2, dentro de tu presupuesto. También tiene algo de lujo (Diagonal Mar 2.897€), ojo con eso."
@@ -405,7 +405,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-09-30T19:10:17+00:00",
+    "last_scrape": "2026-09-30T19:25:35+00:00",
     "last_new_listing": "2026-09-29T17:38:35+00:00",
     "failure_count": 0,
     "notes": "Sumada por discovery el 2026-09-29, confirmada a mano: portal del Col·legi d'Administradors de Finques (varios administradores reales, no un portal tipo Idealista). Pisos reales entre 1000-2850€, ej Balmes 124 a 1000€/75m2, Sagrada Familia también aparece."
