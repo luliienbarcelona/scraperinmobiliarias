@@ -130,14 +130,20 @@
     "domain": "tecnocasa.es",
     "rental_url": "https://www.tecnocasa.es/alquiler/piso/cataluna/barcelona/barcelona.html",
     "source_type": "agency",
-    "scraper_type": null,
+    "scraper_type": "sitemap",
     "module": null,
     "tier": 2,
-    "active": false,
+    "active": true,
     "last_scrape": null,
     "last_new_listing": null,
     "failure_count": 0,
-    "notes": "PENDIENTE (auditoría 2026-09-29): el listado carga por JS, pero tiene sitemap propio (sitemap/inmuebles-0.xml.gz e inmuebles-1.xml.gz) con URLs de cada inmueble. Falta implementar un scraper que baje y descomprima el sitemap y confirme si las fichas individuales sí traen HTML server-side. No confirmado todavía, no activar sin probarlo en código."
+    "notes": "Activada 2026-09-30 con scraper de sitemap nuevo (sources/sitemap_agency.py): el listado carga por JS pero el sitemap trae la URL de cada ficha individual, y la ficha sí es HTML server-side. url_filter_pattern=\"/alquiler/\" es un supuesto basado en que sus URLs de categoria ya usan ese prefijo (ej. /alquiler/piso/...); no pude confirmarlo bajando el sitemap real porque mis herramientas no pueden leer el .gz desde este entorno. Revisar el primer log de Tier 2 despues de este cambio: si trae pisos EN VENTA o de otras ciudades, hay que ajustar el patron o agregar un chequeo de texto (ademas del de la URL).",
+    "sitemap_urls": [
+      "https://www.tecnocasa.es/sitemap/inmuebles-0.xml.gz",
+      "https://www.tecnocasa.es/sitemap/inmuebles-1.xml.gz"
+    ],
+    "url_filter_pattern": "/alquiler/",
+    "max_new_per_run": 40
   },
   {
     "name": "donpiso",
@@ -364,12 +370,12 @@
     "last_scrape": null,
     "last_new_listing": null,
     "failure_count": 0,
-    "notes": "PENDIENTE (auditoría 2026-09-29): especialista en Barceloneta, m² sí aparece en HTML pero el precio no se ve en el listado (posiblemente solo en la ficha individual). Unidades chicas, algunas por debajo de 50m2. No descartada del todo, revisar fichas individuales antes de activar."
+    "notes": "DESCARTADA definitivamente 2026-09-30: confirmado que el precio no esta en ningun HTML propio del sitio, ni en el listado ni en una ficha con URL propia. Para ver precio hay que ir a Idealista (deriva ahi directo) o pedir info por formulario. No hay nada que un scraper pueda leer sin pasar por Idealista."
   },
   {
     "name": "Fincas Gilser",
     "domain": "fincasgilser.com",
-    "rental_url": "https://www.fincasgilser.com/alquiler-de-viviendas/",
+    "rental_url": "https://fincasgilser.com/propiedades/alquiler/viviendas",
     "source_type": "agency",
     "scraper_type": null,
     "module": null,
@@ -378,7 +384,7 @@
     "last_scrape": null,
     "last_new_listing": null,
     "failure_count": 0,
-    "notes": "PENDIENTE (auditoría 2026-09-29): especialista en Poblenou, no pude acceder a la URL de alquiler (404/permiso denegado en la herramienta de research). Reintentar."
+    "notes": "PENDIENTE 2026-09-30: la URL vieja daba 404, la correcta es propiedades/alquiler/viviendas. Ahi mismo confirme que la pestaña \"Alquiler\" esta mostrando 0 propiedades hoy (solo hay 2 en venta visibles). No se rechaza -puede ser que hoy no tenga inventario de alquiler, no que el sitio no sirva-, pero tampoco se activa todavia: falta confirmar si cuando SI hay pisos en alquiler el precio/m2 esta en el HTML de esta pagina o hace falta entrar a cada ficha. Tampoco menciona Poblenou (los barrios que aparecen son Sant Marti, Sants-Montjuic, Ciutat Vella, Eixample), asi que aunque se active el fit real es mas para Eixample."
   },
   {
     "name": "fincasgaudi.com",
@@ -1223,52 +1229,5 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página)."
-  },
-        {
-        "name": "Tecnocasa",
-        "domain": "tecnocasa.es",
-        "rental_url": "https://www.tecnocasa.es/alquiler/piso/cataluna/barcelona/barcelona.html",
-        "source_type": "agency",
-        "scraper_type": "sitemap",
-        "module": null,
-        "tier": 2,
-        "active": true,
-        "last_scrape": null,
-        "last_new_listing": null,
-        "failure_count": 0,
-        "notes": "Activada 2026-09-30 con scraper de sitemap nuevo (sources/sitemap_agency.py): el listado carga por JS pero el sitemap trae la URL de cada ficha individual, y la ficha sí es HTML server-side. url_filter_pattern=\"/alquiler/\" es un supuesto basado en que sus URLs de categoria ya usan ese prefijo (ej. /alquiler/piso/...); no pude confirmarlo bajando el sitemap real porque mis herramientas no pueden leer el .gz desde este entorno. Revisar el primer log de Tier 2 despues de este cambio: si trae pisos EN VENTA o de otras ciudades, hay que ajustar el patron o agregar un chequeo de texto (ademas del de la URL).",
-        "sitemap_urls": [
-          "https://www.tecnocasa.es/sitemap/inmuebles-0.xml.gz",
-          "https://www.tecnocasa.es/sitemap/inmuebles-1.xml.gz"
-        ],
-        "url_filter_pattern": "/alquiler/",
-        "max_new_per_run": 40
-      },
-      {
-        "name": "Skyflats Barcelona",
-        "domain": "skyflats.es",
-        "rental_url": "https://www.skyflats.es/pisos-alquiler-barceloneta",
-        "source_type": "agency",
-        "scraper_type": null,
-        "module": null,
-        "tier": null,
-        "active": false,
-        "last_scrape": null,
-        "last_new_listing": null,
-        "failure_count": 0,
-        "notes": "DESCARTADA definitivamente 2026-09-30: confirmado que el precio no esta en ningun HTML propio del sitio, ni en el listado ni en una ficha con URL propia. Para ver precio hay que ir a Idealista (deriva ahi directo) o pedir info por formulario. No hay nada que un scraper pueda leer sin pasar por Idealista."
-      },
-      {
-        "name": "Fincas Gilser",
-        "domain": "fincasgilser.com",
-        "rental_url": "https://fincasgilser.com/propiedades/alquiler/viviendas",
-        "source_type": "agency",
-        "scraper_type": null,
-        "module": null,
-        "tier": null,
-        "active": false,
-        "last_scrape": null,
-        "last_new_listing": null,
-        "failure_count": 0,
-        "notes": "PENDIENTE 2026-09-30: la URL vieja daba 404, la correcta es propiedades/alquiler/viviendas. Ahi mismo confirme que la pestaña \"Alquiler\" esta mostrando 0 propiedades hoy (solo hay 2 en venta
+  }
 ]
