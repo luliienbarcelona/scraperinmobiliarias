@@ -14,9 +14,15 @@ una tiene su propio archivo en `sources/`.
 
 **Tier 2 — más cobertura, menos frecuente (`main_tier2.py`, cada 15 min)**
 Recorre las inmobiliarias del registro (`agencies.json`) marcadas como
-`"tier": 2` y `"active": true`, usando un scraper genérico
-(`sources/generic_agency.py`) en vez de un archivo por sitio. Así se puede
-ir sumando inmobiliarias sin escribir código nuevo cada vez.
+`"tier": 2` y `"active": true`, usando uno de dos scrapers según
+`"scraper_type"` (no hace falta un archivo por sitio):
+- `"generic"` (`sources/generic_agency.py`): lee el listado directo con
+  requests + BeautifulSoup, matcheando un patrón de link a cada ficha.
+- `"sitemap"` (`sources/sitemap_agency.py`): para sitios cuyo LISTADO
+  carga con JavaScript pero publican un sitemap.xml con la URL de cada
+  ficha individual, y esa ficha sí es HTML server-side (caso: Tecnocasa).
+  Guarda en `sitemap_seen.json` qué fichas ya evaluó, para no tener que
+  volver a pedir cientos de páginas en cada corrida.
 
 **Discovery (`main_discovery.py`, 2 veces por día)**
 Busca inmobiliarias nuevas con Brave Search (zona por zona, por ejemplo
@@ -52,11 +58,11 @@ se manda a Telegram marcado como "desconocido" en vez de perderse.
 
 ## Archivos que NO hay que pisar
 
-`seen_listings.json`, `seen_tier2.json`, `seen_broad.json` y
-`agencies.json` los actualiza el bot solo en cada corrida (con
-last_scrape, precios ya vistos, etc). Si subís una versión vieja desde tu
-compu vas a perder ese historial y capaz te llegan notificaciones
-repetidas.
+`seen_listings.json`, `seen_tier2.json`, `seen_broad.json`,
+`sitemap_seen.json` y `agencies.json` los actualiza el bot solo en cada
+corrida (con last_scrape, precios ya vistos, fichas de sitemap ya
+evaluadas, etc). Si subís una versión vieja desde tu compu vas a perder
+ese historial y capaz te llegan notificaciones repetidas.
 
 ## Secrets necesarios (Settings → Secrets → Actions)
 
