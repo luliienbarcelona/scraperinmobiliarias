@@ -1195,5 +1195,33 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página)."
+  },
+  {
+    "name": "finqueshuertas.com",
+    "domain": "finqueshuertas.com",
+    "rental_url": "https://www.finqueshuertas.com/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='www.finqueshuertas.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='www.finqueshuertas.com', port=443): Failed to resolve 'www.finqueshuertas.com' ([Errno -3] Temporary failure in name resolution)\"))) / en la home tampoco: no responde (HTTPSConnectionPool(host='finqueshuertas.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='finqueshuertas.com', port=443): Failed to resolve 'finqueshuertas.com' ([Errno -3] Temporary failure in name resolution)\")))."
+  },
+  {
+    "name": "finorbcn.com",
+    "domain": "finorbcn.com",
+    "rental_url": "https://finorbcn.com/administrador-fincas-passeig-de-gracia",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página)."
   }
 ]
