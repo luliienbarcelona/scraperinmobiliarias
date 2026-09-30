@@ -18,7 +18,7 @@ BASE_URL = "https://www.aproperties.es/pisos-alquiler-barcelona"
 MAX_PAGES = 5  # corta antes si una página no trae anuncios nuevos
 
 CARD_HREF_RE = re.compile(r"/barcelona/[^\"']*-en-alquiler-en-[^\"']+")
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'Superficie\s+(\d+(?:[.,]\d+)?)\s?m2', re.IGNORECASE)
 ROOMS_RE = re.compile(r'Dormitorios\s+(\d+)', re.IGNORECASE)
 

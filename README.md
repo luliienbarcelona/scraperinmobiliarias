@@ -27,9 +27,22 @@ Recorre las inmobiliarias del registro (`agencies.json`) marcadas como
 **Discovery (`main_discovery.py`, 2 veces por día)**
 Busca inmobiliarias nuevas con Brave Search (zona por zona, por ejemplo
 "inmobiliaria Poblenou Barcelona alquiler"), no pisos sueltos. A cada
-dominio nuevo le hace un chequeo automático (¿tiene precio+m2 en el HTML,
-menciona alguna de tus zonas?) y si pasa lo suma a Tier 2 directo, sin
-esperar aprobación manual. Te avisa por Telegram qué sumó y qué descartó,
+dominio nuevo le hace un chequeo automático EN CASCADA (ver
+`sources/discover_agencies.py`), de más liviano a más pesado, antes de
+descartarlo:
+
+1. HTML plano (requests) - la mayoría de los sitios normales.
+2. Sitemap - si el listado carga por JS pero el sitio publica un
+   sitemap.xml con la URL de cada ficha, y la ficha sí es HTML
+   server-side (caso: Tecnocasa).
+3. Playwright (navegador headless) - último recurso, para sitios que de
+   verdad necesitan ejecutar JS para mostrar algo.
+
+Si pasa por 2 o 3 queda marcada con ese `scraper_type` en el registro, y
+según cuál sea la procesa `main_tier2.py` (generic/sitemap, cada 15 min) o
+`main_tier2_js.py` (playwright, cada 30 min, más caro por eso menos
+seguido). No espera aprobación manual para activar una fuente nueva, pero
+SIEMPRE avisa por Telegram qué sumó (y por cuál método) y qué descartó,
 para que quede auditable.
 
 ## El registro: `agencies.json`
@@ -69,3 +82,13 @@ ese historial y capaz te llegan notificaciones repetidas.
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
 - `BRAVE_API_KEY` (solo lo usa discovery)
+
+## Bug corregido (2026-09-30): precios de 4+ dígitos sin separador
+
+El regex que lee el precio en todos los scrapers leía mal un precio como
+"1200€" (sin punto ni coma) y lo interpretaba como "200€" -se quedaba con
+los últimos 3 dígitos en vez del número completo-. Si el sitio SÍ ponía
+separador de miles ("1.200€") funcionaba bien, el problema era solo sin
+separador. Ya está corregido en los 13 archivos que tenían su propia
+copia del regex (`sources/*.py`). Si veías algún piso con un precio que
+no tenía sentido, puede haber sido por esto.

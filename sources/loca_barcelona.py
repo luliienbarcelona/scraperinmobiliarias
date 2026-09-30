@@ -18,7 +18,7 @@ from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS, ZONES
 
 LONG_TERM_URL = "https://www.locabarcelona.com/en/property-status/long-term-rental/"
 
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m2', re.IGNORECASE)
 BED_RE = re.compile(r'(\d+)\s?Bedroom', re.IGNORECASE)
 

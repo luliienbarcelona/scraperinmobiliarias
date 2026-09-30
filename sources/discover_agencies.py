@@ -1,18 +1,31 @@
 # -*- coding: utf-8 -*-
 """
 Discovery: busca inmobiliarias NUEVAS (no pisos sueltos) con Brave Search,
-zona por zona. A cada dominio nuevo le hace un chequeo automático rápido
-(¿tiene precio+m2 en el HTML crudo? ¿menciona alguna de tus zonas?) y si
-pasa, se suma solo a agencies.json en Tier 2, activa, para que
-main_tier2.py la empiece a monitorear con el scraper genérico. Si no pasa,
-igual queda anotada (inactiva) para no re-evaluar el mismo dominio en cada
-corrida.
+zona por zona. A cada dominio nuevo le hace un chequeo automático en
+CASCADA, de más liviano a más pesado, hasta encontrar una forma de leer
+precio+m2 (o hasta agotar las opciones):
 
-Esto reemplaza al broad_search.py viejo, que buscaba pisos sueltos por
-Google/Brave (señal débil, ver notas en el README). Ahora Brave se usa
-para encontrar SITIOS, no anuncios.
+  1. HTML plano (requests + BeautifulSoup) - la mayoría de los sitios
+     "normales" pasan por aquí. Barato y rápido.
+  2. Sitemap - si el listado carga por JS pero el sitio publica un
+     sitemap.xml con la URL de cada ficha, y esa ficha individual SÍ es
+     HTML server-side (caso confirmado: Tecnocasa). Un poco más caro
+     (varios requests), pero nada de navegador.
+  3. Playwright (Chromium headless) - último recurso, para sitios que de
+     verdad necesitan ejecutar JS para mostrar algo. El más caro con
+     diferencia, por eso solo se usa cuando 1 y 2 ya fallaron.
+
+Si pasa por 2 o 3, la entrada que se suma a agencies.json queda marcada
+con el scraper_type correspondiente ("sitemap" o "playwright") para que
+main_tier2.py (scraper_type sitemap/generic, cada 15 min) o
+main_tier2_js.py (scraper_type playwright, cada 30 min) sepan cuál usar.
+
+Si no pasa por ninguno, igual queda anotada (inactiva) para no
+re-evaluar el mismo dominio en cada corrida.
 """
 import re
+import gzip
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -53,17 +66,26 @@ KNOWN_NON_CANDIDATES = [
     # (solo venta, 400k-3.9M€), y api.cat solo devolvía garajes/locales,
     # nada de pisos (feedback directo de Luli).
     "urbanegroup.es", "api.cat",
+    # Confirmado a mano el 2026-09-30: skyflats.es no tiene precio en
+    # ningún HTML propio (deriva a Idealista para verlo).
+    "skyflats.es",
 ]
 
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m[²2]', re.IGNORECASE)
 
 # Techo para el chequeo automático (más laxo que MAX_PRICE de config.py,
 # que es 1600): alcanza con que HAYA algún precio dentro de un rango
-# razonable en la página, no que sea exactamente tu presupuesto. Esto es
-# lo que faltaba: antes solo chequeaba "¿hay un precio?", sin mirar si el
-# precio era de vivienda barata o de un ático de lujo.
+# razonable en la página, no que sea exactamente tu presupuesto.
 DISCOVERY_PRICE_CEILING = 2200
+
+# Rutas típicas de sitemap a probar cuando robots.txt no lo indica.
+COMMON_SITEMAP_PATHS = ["/sitemap.xml", "/sitemap_index.xml"]
+
+# Cuántas fichas de sitemap muestrear como máximo antes de decidir si el
+# dominio pasa el chequeo (no hace falta revisar las 500, con que 1-2
+# tengan precio+m2+zona ya sabemos que el patrón funciona).
+SITEMAP_SAMPLE_SIZE = 8
 
 
 def _domain_of(url: str) -> str:
@@ -109,8 +131,17 @@ def search_candidate_domains():
     return candidates
 
 
+def _extract_plausible_price(text: str):
+    prices = [
+        float(p.replace(".", "").replace(",", "."))
+        for p in PRICE_RE.findall(text)
+    ]
+    plausible = [p for p in prices if p <= DISCOVERY_PRICE_CEILING]
+    return plausible, prices
+
+
 def _check_one_page(url: str):
-    """Devuelve (ok, motivo) para UNA página puntual."""
+    """Paso 1 (HTML plano). Devuelve (ok, motivo) para UNA página puntual."""
     try:
         resp = requests.get(url, headers=REQUEST_HEADERS, timeout=15)
         resp.raise_for_status()
@@ -128,11 +159,7 @@ def _check_one_page(url: str):
     if zone_hit is None:
         return False, "no menciona ninguna de tus zonas en esta página"
 
-    prices = [
-        float(p.replace(".", "").replace(",", "."))
-        for p in PRICE_RE.findall(text)
-    ]
-    plausible = [p for p in prices if p <= DISCOVERY_PRICE_CEILING]
+    plausible, prices = _extract_plausible_price(text)
     if not plausible:
         if prices:
             return False, f"los precios que aparecen son todos altos (mínimo encontrado: {min(prices):.0f}€), parece de lujo o venta"
@@ -141,17 +168,9 @@ def _check_one_page(url: str):
     return True, f"tiene precio (ej. {min(plausible):.0f}€) y m² visibles, menciona {zone_hit}"
 
 
-def quick_quality_check(url: str):
-    """Chequeo automático, no perfecto: ¿la página tiene un precio
-    razonable (no de lujo) + m² en HTML crudo, y menciona alguna de tus
-    zonas? Sirve para no sumar al registro sitios que son puro JS, que
-    solo tienen inventario de lujo, o que no tienen nada que ver con tu
-    búsqueda.
-
-    Prueba primero la URL puntual que dio Brave (puede ser una página
-    interior sin listado) y, si falla, prueba la home del dominio como
-    respaldo, porque a veces el listado real está ahí y no en la página
-    que indexó el buscador. Devuelve (ok: bool, motivo: str)."""
+def _check_html_plano(url: str):
+    """Prueba primero la URL puntual que dio Brave y, si falla, la home
+    del dominio como respaldo (a veces el listado real está ahí)."""
     ok, reason = _check_one_page(url)
     if ok:
         return ok, reason
@@ -159,10 +178,153 @@ def quick_quality_check(url: str):
     domain = _domain_of(url)
     home_url = f"https://{domain}/"
     if home_url.rstrip("/") == url.rstrip("/"):
-        return ok, reason  # ya probamos la home, no repetir
+        return ok, reason
 
     ok_home, reason_home = _check_one_page(home_url)
     if ok_home:
         return ok_home, f"(vía home) {reason_home}"
 
     return False, f"{reason} / en la home tampoco: {reason_home}"
+
+
+def _fetch_sitemap_locs(url: str):
+    resp = requests.get(url, headers=REQUEST_HEADERS, timeout=30)
+    resp.raise_for_status()
+    content = resp.content
+    if url.endswith(".gz"):
+        try:
+            content = gzip.decompress(content)
+        except OSError:
+            pass
+    soup = BeautifulSoup(content, "xml")
+    return [loc.get_text(strip=True) for loc in soup.find_all("loc")]
+
+
+def _find_sitemap_index_urls(domain: str):
+    """Busca sitemaps declarados en robots.txt; si no hay, prueba rutas
+    comunes. Devuelve una lista de URLs de sitemap (índice o directo)."""
+    found = []
+    try:
+        resp = requests.get(f"https://{domain}/robots.txt", headers=REQUEST_HEADERS, timeout=10)
+        if resp.ok:
+            found = re.findall(r"(?im)^sitemap:\s*(\S+)", resp.text)
+    except requests.RequestException:
+        pass
+
+    if found:
+        return found
+
+    return [f"https://{domain}{path}" for path in COMMON_SITEMAP_PATHS]
+
+
+def _check_via_sitemap(domain: str):
+    """Paso 2. Devuelve (ok, motivo, sitemap_urls_usados) o (False, motivo, None)."""
+    to_visit = _find_sitemap_index_urls(domain)
+    visited = set()
+    leaf_sitemaps = []  # los .xml/.xml.gz que sí tenían fichas (no más índices)
+    property_urls = []
+
+    while to_visit and len(property_urls) < 500:
+        sm_url = to_visit.pop(0)
+        if sm_url in visited:
+            continue
+        visited.add(sm_url)
+        try:
+            locs = _fetch_sitemap_locs(sm_url)
+        except requests.RequestException:
+            continue
+        if not locs:
+            continue
+
+        looks_like_index = sum(1 for l in locs if l.endswith((".xml", ".xml.gz"))) > len(locs) * 0.8
+        if looks_like_index:
+            to_visit.extend(locs)
+            continue
+
+        leaf_sitemaps.append(sm_url)
+        property_urls.extend(locs)
+
+    if not property_urls:
+        return False, "no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes)", None
+
+    # Priorizamos URLs que "suenan" a alquiler, si las hay, para no
+    # gastar la muestra en fichas de venta.
+    rental_like = [u for u in property_urls if re.search(r"alquil|lloguer|rent", u, re.IGNORECASE)]
+    sample_pool = rental_like if rental_like else property_urls
+    sample = sample_pool[:SITEMAP_SAMPLE_SIZE]
+
+    hits = 0
+    example_price = None
+    for prop_url in sample:
+        ok, _ = _check_one_page(prop_url)
+        if ok:
+            hits += 1
+            if example_price is None:
+                example_price = prop_url
+
+    if hits == 0:
+        return False, f"tiene sitemap ({len(property_urls)} fichas) pero ninguna de las {len(sample)} muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha)", None
+
+    url_filter_pattern = r"alquil|lloguer|rent" if rental_like else None
+    return (
+        True,
+        f"sitemap con {len(property_urls)} fichas, {hits}/{len(sample)} muestreadas OK (ej. {example_price})",
+        {"sitemap_urls": leaf_sitemaps, "url_filter_pattern": url_filter_pattern},
+    )
+
+
+def _check_via_playwright(url: str):
+    """Paso 3, último recurso. Importa Playwright adentro de la función:
+    si no está instalado (p. ej. corriendo esto fuera del workflow de
+    discovery, que es el único que lo instala), este paso se salta solo
+    en vez de romper toda la corrida."""
+    try:
+        from sources.playwright_agency import render_html
+    except ImportError:
+        return False, "Playwright no está instalado en este entorno, se salta este paso"
+
+    try:
+        html = render_html(url)
+    except Exception as e:
+        return False, f"Playwright no pudo renderizar ({e})"
+
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text(" ", strip=True)
+
+    if not M2_RE.search(text):
+        return False, "ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)"
+    zone_hit = match_zone(text)
+    if zone_hit is None:
+        return False, "renderizado sí trae contenido, pero no menciona ninguna de tus zonas"
+
+    plausible, prices = _extract_plausible_price(text)
+    if not plausible:
+        if prices:
+            return False, f"renderizado: precios altos nomás (mínimo {min(prices):.0f}€), parece lujo o venta"
+        return False, "renderizado sí trae m² y zona, pero no se ve ningún precio"
+
+    return True, f"(vía Playwright) tiene precio (ej. {min(plausible):.0f}€) y m² visibles, menciona {zone_hit}"
+
+
+def quick_quality_check(url: str):
+    """Chequeo en cascada: HTML plano -> sitemap -> Playwright. Devuelve
+    (ok: bool, motivo: str, method: str|None, extra: dict|None).
+    method es "generic", "sitemap" o "playwright" (para que
+    main_discovery.py sepa qué scraper_type asignar); extra solo se usa
+    para "sitemap" (sitemap_urls + url_filter_pattern)."""
+    ok, reason = _check_html_plano(url)
+    if ok:
+        return True, reason, "generic", None
+
+    domain = _domain_of(url)
+    ok_sm, reason_sm, sitemap_info = _check_via_sitemap(domain)
+    if ok_sm:
+        return True, reason_sm, "sitemap", sitemap_info
+
+    home_url = f"https://{domain}/"
+    ok_pw, reason_pw = _check_via_playwright(url if url.rstrip("/") != home_url.rstrip("/") else home_url)
+    if ok_pw:
+        return True, reason_pw, "playwright", None
+
+    combined = f"{reason} / sitemap: {reason_sm} / Playwright: {reason_pw}"
+    return False, combined, None, None

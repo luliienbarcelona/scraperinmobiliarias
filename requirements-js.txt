@@ -1,0 +1,5 @@
+# Dependencia extra SOLO para los workflows que necesitan renderizar
+# JavaScript (discovery y main_tier2_js.py). Separada de requirements.txt
+# a propósito: el resto de los workflows (Tier 1, Tier 2 normal) no la
+# necesitan y no tiene sentido que paguen el costo de instalarla.
+playwright

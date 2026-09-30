@@ -37,7 +37,7 @@ from bs4 import BeautifulSoup
 from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
 from sources.zone_match import match_zone
 
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m[²2]', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?(?:hab|dormitor|habitaci)', re.IGNORECASE)
 

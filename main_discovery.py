@@ -9,6 +9,12 @@ no buscar pisos en tiempo real (eso lo hacen Tier 1 y Tier 2).
 Filosofía (acordada con Luli): filtro automático + aviso. No espera
 aprobación manual para activar una fuente nueva, pero SIEMPRE avisa por
 Telegram qué sumó y qué descartó, para que quede auditable.
+
+El chequeo automático (discover_agencies.quick_quality_check) ahora prueba
+en cascada: HTML plano -> sitemap -> Playwright (ver ese archivo). Según
+cuál método funcionó, la entrada nueva queda con distinto scraper_type:
+"generic" (HTML plano, la mayoría), "sitemap" o "playwright" (JS real,
+va a la cola de main_tier2_js.py en vez de main_tier2.py).
 """
 import time
 
@@ -31,7 +37,7 @@ def main():
         if domain_exists(entries, domain):
             continue  # ya lo conocíamos (activo o ya descartado antes)
 
-        ok, reason = discover_agencies.quick_quality_check(url)
+        ok, reason, method, extra = discover_agencies.quick_quality_check(url)
         time.sleep(1)
 
         if ok:
@@ -40,18 +46,22 @@ def main():
                 "domain": domain,
                 "rental_url": url,
                 "source_type": "agency",
-                "scraper_type": "generic",
+                "scraper_type": method,  # "generic", "sitemap" o "playwright"
                 "module": None,
-                "href_pattern": None,  # generic_agency.py usa un patrón genérico por defecto
+                "href_pattern": None,  # generic_agency.py / playwright_agency.py usan un patrón genérico por defecto
                 "tier": 2,
                 "active": True,
                 "last_scrape": None,
                 "last_new_listing": None,
                 "failure_count": 0,
-                "notes": f"Sumada automáticamente por discovery ({reason}). Revisar el href_pattern a mano si conviene afinarlo.",
+                "notes": f"Sumada automáticamente por discovery, vía {method} ({reason}). Revisar a mano si conviene afinar el patrón.",
             }
+            if method == "sitemap" and extra:
+                new_entry["sitemap_urls"] = extra["sitemap_urls"]
+                new_entry["url_filter_pattern"] = extra["url_filter_pattern"]
+                new_entry["max_new_per_run"] = 40
             if add_candidate(entries, new_entry):
-                added.append(domain)
+                added.append(f"{domain} (vía {method})")
         else:
             rejected_entry = {
                 "name": domain,

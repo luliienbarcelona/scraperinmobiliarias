@@ -18,7 +18,7 @@ from sources.zone_match import match_zone, ancestor_texts
 URL = "https://www.finquesgrau.com/es/inmobiliaria/alquiler"
 
 CARD_HREF_RE = re.compile(r"/es/inmueble/alquiler/[^\"']+")
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})\s?€')
 M2_RE = re.compile(r'(\d+)\s?m2', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?Habitaci', re.IGNORECASE)
 

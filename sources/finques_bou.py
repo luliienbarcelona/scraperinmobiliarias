@@ -17,7 +17,7 @@ from sources.zone_match import match_zone, ancestor_texts
 URL = "https://inmobiliariaenbarcelona.finquesbou.es/propiedades/alquiler/defecto"
 
 CARD_HREF_RE = re.compile(r"/propiedad/(piso|vivienda|atico|duplex)-[^\"']+", re.IGNORECASE)
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m2', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?(?:Habitaciones|Hab\.)', re.IGNORECASE)
 

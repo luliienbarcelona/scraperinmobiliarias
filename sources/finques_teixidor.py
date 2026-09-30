@@ -18,7 +18,7 @@ from sources.zone_match import match_zone, ancestor_texts
 URL = "https://www.finquesteixidor.com/ca/alquiler-barcelona.cfm"
 
 CARD_HREF_RE = re.compile(r"/ca/alquiler-pisos-barcelona\.cfm/ID/\d+/CAT/[^\"']+\.htm")
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m[²2]', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?hab', re.IGNORECASE)
 

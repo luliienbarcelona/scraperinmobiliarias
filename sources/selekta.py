@@ -17,7 +17,7 @@ BASE_URL = "https://selektaproperties.com/inmuebles-en-alquiler/"
 MAX_PAGES = 5
 
 CARD_HREF_RE = re.compile(r"/inmuebles/[^\"']+/?$")
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m2', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?hab', re.IGNORECASE)
 

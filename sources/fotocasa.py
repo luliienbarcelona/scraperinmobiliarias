@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
 
 CARD_HREF_RE = re.compile(r"/rental/home/[^\"']+/\d+/d")
-PRICE_RE = re.compile(r'([\d]{1,3}(?:[.,]\d{3})*)\s?€')
+PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m²', re.IGNORECASE)
 ROOMS_RE = re.compile(r'(\d+)\s?rooms?', re.IGNORECASE)
 
