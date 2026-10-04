@@ -72,8 +72,11 @@ def _fetch_sitemap_locs(url: str):
             content = gzip.decompress(content)
         except OSError:
             pass  # por si requests ya lo descomprimió solo vía Content-Encoding
-    soup = BeautifulSoup(content, "xml")
-    return [loc.get_text(strip=True) for loc in soup.find_all("loc")]
+    # Regex en vez de BeautifulSoup(content, "xml"): ese modo necesita el
+    # paquete "lxml" instalado aparte (no está en requirements.txt), y un
+    # sitemap es XML simple, sacar los <loc>...</loc> con regex alcanza.
+    text = content.decode("utf-8", errors="ignore")
+    return re.findall(r"<loc>\s*(.*?)\s*</loc>", text, re.IGNORECASE)
 
 
 def _collect_property_urls(entry: dict):
