@@ -166,5 +166,21 @@
   "https://www.donpiso.com/pisos-y-casas/305065_duplex-en-alquiler-barcelona": {
     "m2": 150.0,
     "price": 15000.0
+  },
+  "https://www.tecnocasa.es/alquiler/local-comercial/barcelona/barcelona/568884.html": {
+    "m2": 120.0,
+    "price": 900.0
+  },
+  "https://www.tecnocasa.es/alquiler/local-comercial/barcelona/barcelona/656965.html": {
+    "m2": 101.0,
+    "price": 575.0
+  },
+  "https://www.tecnocasa.es/alquiler/local-comercial/barcelona/barcelona/664395.html": {
+    "m2": 80.0,
+    "price": 1050.0
+  },
+  "https://www.tecnocasa.es/alquiler/local-comercial/barcelona/barcelona/666263.html": {
+    "m2": 65.0,
+    "price": 950.0
   }
 }
