@@ -134,9 +134,9 @@
     "module": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-04T04:08:42+00:00",
+    "last_scrape": "2026-10-04T06:02:01+00:00",
     "last_new_listing": null,
-    "failure_count": 240,
+    "failure_count": 241,
     "notes": "Activada 2026-09-30 con scraper de sitemap nuevo (sources/sitemap_agency.py): el listado carga por JS pero el sitemap trae la URL de cada ficha individual, y la ficha sí es HTML server-side. url_filter_pattern=\"/alquiler/\" es un supuesto basado en que sus URLs de categoria ya usan ese prefijo (ej. /alquiler/piso/...); no pude confirmarlo bajando el sitemap real porque mis herramientas no pueden leer el .gz desde este entorno. Revisar el primer log de Tier 2 despues de este cambio: si trae pisos EN VENTA o de otras ciudades, hay que ajustar el patron o agregar un chequeo de texto (ademas del de la URL).",
     "sitemap_urls": [
       "https://www.tecnocasa.es/sitemap/inmuebles-0.xml.gz",
@@ -157,7 +157,7 @@
     "max_pages": 1,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-04T04:08:45+00:00",
+    "last_scrape": "2026-10-04T06:02:04+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "HTML real, barato de scrapear. Auditoría 2026-09-29: siempre devolvió los mismos pisos de lujo en Passeig de Gràcia (8.000-11.000€), nada bajo 1600€ hasta ahora, pero se mantiene en Tier 2 por si cambia su inventario, no cuesta nada monitorearlo cada 15 min."
@@ -396,7 +396,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-04T04:08:49+00:00",
+    "last_scrape": "2026-10-04T06:02:08+00:00",
     "last_new_listing": "2026-09-29T17:38:32+00:00",
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-09-29: discovery la había rechazado por error (miró una URL sin listado en vez de la home). La home sí tiene un piso en Vila Olímpica a 1.588€/81m2, dentro de tu presupuesto. También tiene algo de lujo (Diagonal Mar 2.897€), ojo con eso."
@@ -411,7 +411,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-04T04:08:52+00:00",
+    "last_scrape": "2026-10-04T06:02:11+00:00",
     "last_new_listing": "2026-09-29T17:38:35+00:00",
     "failure_count": 0,
     "notes": "Sumada por discovery el 2026-09-29, confirmada a mano: portal del Col·legi d'Administradors de Finques (varios administradores reales, no un portal tipo Idealista). Pisos reales entre 1000-2850€, ej Balmes 124 a 1000€/75m2, Sagrada Familia también aparece."
