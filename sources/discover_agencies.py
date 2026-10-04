@@ -126,6 +126,10 @@ KNOWN_NON_CANDIDATES = [
     # (solo venta, 400k-3.9M€), y api.cat solo devolvía garajes/locales,
     # nada de pisos (feedback directo de Luli).
     "urbanegroup.es", "api.cat",
+    # Confirmado el 2026-10-04: agenciasinmobiliarias.com.es es un
+    # directorio/portal de inmobiliarias (perfiles de agencias), no una
+    # inmobiliaria individual con pisos propios.
+    "agenciasinmobiliarias.com.es",
     # Confirmado a mano el 2026-09-30: skyflats.es no tiene precio en
     # ningún HTML propio (deriva a Idealista para verlo).
     "skyflats.es",
