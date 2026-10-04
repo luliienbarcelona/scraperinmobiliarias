@@ -1229,5 +1229,47 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página)."
+  },
+  {
+    "name": "piedraclave.com",
+    "domain": "piedraclave.com",
+    "rental_url": "https://www.piedraclave.com/es/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='www.piedraclave.com', port=443): Max retries exceeded with url: /es/ (Caused by NewConnectionError(\"HTTPSConnection(host='www.piedraclave.com', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))) / en la home tampoco: no responde (HTTPSConnectionPool(host='piedraclave.com', port=443): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPSConnection(host='piedraclave.com', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://www.piedraclave.com/es/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "agenciasinmobiliarias.com.es",
+    "domain": "agenciasinmobiliarias.com.es",
+    "rental_url": "https://agenciasinmobiliarias.com.es/es-es/i/14186-agencia-inmobiliaria-en-sagrada-familia-la-casa-agency/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (9427 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "onixrenta.com",
+    "domain": "onixrenta.com",
+    "rental_url": "https://www.onixrenta.com/zona/clot",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
