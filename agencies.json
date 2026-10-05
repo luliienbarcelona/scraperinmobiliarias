@@ -137,12 +137,12 @@
     "last_scrape": "2026-10-05T17:05:34+00:00",
     "last_new_listing": "2026-10-04T23:36:47+00:00",
     "failure_count": 0,
-    "notes": "Activada 2026-09-30 con scraper de sitemap (sources/sitemap_agency.py). Corregido 2026-10-05: el patron anterior (\"/alquiler/\") dejaba pasar fichas de otras ciudades (ej. Valencia) porque Tecnocasa es cadena nacional y el sitemap mezcla todas las sedes; ademas el match de zona agarro \"Sant Antoni\" de Valencia como si fuera el barrio de Barcelona. Patron ajustado a \"/alquiler/piso/cataluna/barcelona/\" (confirmado con la URL de categoria real: tecnocasa.es/alquiler/piso/cataluna/barcelona/barcelona.html) para quedarse solo con fichas de la sede de Barcelona. Revisar el primer log de Tier 2 despues de este cambio para confirmar que ya no trae otras ciudades.",
+    "notes": "Activada 2026-09-30 con scraper de sitemap (sources/sitemap_agency.py). Corregido 2026-10-05 (dos veces): el patron original \"/alquiler/\" dejaba pasar fichas de otras ciudades y de locales/garajes (Tecnocasa es nacional y el sitemap mezcla todo). Un primer arreglo uso \"/cataluna/barcelona/\" que estaba mal (las fichas reales NO llevan segmento de comunidad: son /alquiler/{tipo}/{provincia}/{ciudad}/{id}.html) y dejo la fuente sin matchear nada ~7h. Patron actual: solo tipos de vivienda en provincia barcelona + ciudad barcelona, verificado contra las URLs reales ya vistas en sitemap_seen.json.",
     "sitemap_urls": [
       "https://www.tecnocasa.es/sitemap/inmuebles-0.xml.gz",
       "https://www.tecnocasa.es/sitemap/inmuebles-1.xml.gz"
     ],
-    "url_filter_pattern": "/alquiler/piso/cataluna/barcelona/",
+    "url_filter_pattern": "/alquiler/(piso|atico|duplex|estudio|loft|apartamento|casa)/barcelona/barcelona/",
     "max_new_per_run": 40
   },
   {
