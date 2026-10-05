@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Tier 1: scraping directo de las inmobiliarias más importantes (rápido y
-confiable). GitHub Actions lo llama cada 5 minutos (ver
-.github/workflows/scrape_fast.yml).
+confiable). Lo ejecuta run_tier1_loop.py en loop dentro de un job de
+GitHub Actions (ver .github/workflows/scrape_fast.yml).
 Para Tier 2 (más inmobiliarias, menos frecuente), ver main_tier2.py.
 Para discovery (buscar inmobiliarias nuevas), ver main_discovery.py.
 """
@@ -66,7 +66,7 @@ def run_citywide(scrape_fn, source_name: str, all_listings: list,
     time.sleep(2)
 
 
-def main():
+def main(include_fotocasa: bool = True):
     all_listings = []
     health_state = health.load_health()
     health_alerts = []
@@ -81,8 +81,9 @@ def main():
     run_citywide(shbarcelona.scrape_all_zones, "ShBarcelona", all_listings, health_state, health_alerts)
     run_citywide(finques_teixidor.scrape_all_zones, "Finques Teixidor", all_listings, health_state, health_alerts)
 
-    print("Scrapeando Fotocasa...")
-    run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings, "Fotocasa", health_state, health_alerts)
+    if include_fotocasa:
+        print("Scrapeando Fotocasa...")
+        run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings, "Fotocasa", health_state, health_alerts)
 
     print(f"\nTotal de anuncios crudos encontrados: {len(all_listings)}")
 

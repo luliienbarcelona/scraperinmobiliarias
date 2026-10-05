@@ -6,11 +6,21 @@ Actions (gratis, repo público). Tiene tres capas:
 
 ## Las tres capas
 
-**Tier 1 — rápida (`main.py`, cada 5 min)**
+**Tier 1 — rápida (`main.py` vía `run_tier1_loop.py`, cada ~2,5 min)**
 Scrapea directo las inmobiliarias que ya verificamos a mano: hoy son Loca
 Barcelona, Finques March, Finques Bou, aProperties, Finques Grau, Selekta
 Properties, ShBarcelona y Finques Teixidor, más Fotocasa como portal. Cada
 una tiene su propio archivo en `sources/`.
+
+El cron de GitHub Actions no respeta intervalos cortos (el "cada 5 min"
+corría en realidad cada ~19 min), así que el Tier 1 corre como un loop: un
+solo job dura ~55 min y repite el scraping cada ~2,5 min adentro
+(`run_tier1_loop.py`). El cron (cada 30 min) solo relanza el job y
+`concurrency` encola los lanzamientos para que no haya huecos ni solapes.
+Cada sitio se consulta una vez por iteración; Fotocasa, que es un portal
+grande con protección anti-bots, solo 1 de cada 4 iteraciones (~cada 10
+min). `seen_listings.json` se commitea apenas aparece algo nuevo, así que
+si el job se corta no se reenvían avisos.
 
 **Tier 2 — más cobertura, menos frecuente (`main_tier2.py`, cada 15 min)**
 Recorre las inmobiliarias del registro (`agencies.json`) marcadas como
