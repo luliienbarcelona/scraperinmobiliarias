@@ -1,0 +1,74 @@
+{
+  "Finques Bou": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": false,
+    "last_nonzero": null,
+    "zero_since": "2026-10-05T17:23:14.665771+00:00"
+  },
+  "Finques Grau": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": true,
+    "last_nonzero": "2026-10-05T18:15:33.589825+00:00",
+    "zero_since": null
+  },
+  "Finques March": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": false,
+    "last_nonzero": null,
+    "zero_since": "2026-10-05T17:23:11.475308+00:00"
+  },
+  "Finques Teixidor": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": true,
+    "last_nonzero": "2026-10-05T18:15:56.203199+00:00",
+    "zero_since": null
+  },
+  "Fotocasa": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": false,
+    "last_nonzero": null,
+    "zero_since": "2026-10-05T17:24:08.623789+00:00"
+  },
+  "Loca Barcelona": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": true,
+    "last_nonzero": "2026-10-05T18:15:18.536285+00:00",
+    "zero_since": null
+  },
+  "Selekta Properties": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": false,
+    "last_nonzero": null,
+    "zero_since": "2026-10-05T17:23:41.194339+00:00"
+  },
+  "ShBarcelona": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": true,
+    "last_nonzero": "2026-10-05T18:15:52.700465+00:00",
+    "zero_since": null
+  },
+  "aProperties": {
+    "alerted_error": false,
+    "alerted_zero": false,
+    "error_since": null,
+    "ever_nonzero": false,
+    "last_nonzero": null,
+    "zero_since": "2026-10-05T17:23:21.183761+00:00"
+  }
+}
