@@ -26,6 +26,7 @@ from bs4 import BeautifulSoup
 
 from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
 from sources.zone_match import match_zone, ancestor_texts
+from sources.card_guard import is_same_site, card_text_ok
 from sources.generic_agency import DEFAULT_HREF_RE
 
 PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
@@ -60,7 +61,7 @@ def render_html(url: str, wait_ms: int = 4000) -> str:
     return html
 
 
-def _parse_cards(html: str, href_pattern, domain_prefix: str):
+def _parse_cards(html: str, href_pattern, domain_prefix: str, domain: str = None):
     soup = BeautifulSoup(html, "html.parser")
     anchors = soup.find_all("a", href=href_pattern)
 
@@ -70,6 +71,8 @@ def _parse_cards(html: str, href_pattern, domain_prefix: str):
         href = a.get("href")
         if not href:
             continue
+        if domain and not is_same_site(href, domain):
+            continue  # redes sociales, WhatsApp, blogs externos, etc.
         if href.startswith("/"):
             href = domain_prefix.rstrip("/") + href
         if href in seen_urls:
@@ -77,6 +80,8 @@ def _parse_cards(html: str, href_pattern, domain_prefix: str):
 
         text = None
         for candidate in ancestor_texts(a, levels=4):
+            if not card_text_ok(candidate):
+                break  # contenedor gigante (pagina entera), subir mas no ayuda
             if PRICE_RE.search(candidate) and M2_RE.search(candidate):
                 text = candidate
                 break
@@ -117,7 +122,7 @@ def scrape_agency(entry: dict):
         print(f"    [ERROR] Playwright en {entry['rental_url']}: {e}")
         return [], False
 
-    listings = _parse_cards(html, href_pattern, domain_prefix)
+    listings = _parse_cards(html, href_pattern, domain_prefix, entry.get("domain"))
     for listing in listings:
         listing["source"] = entry["name"]
 

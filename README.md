@@ -63,6 +63,30 @@ vuelta al repo en cada corrida). Las fuentes de Tier 1 también están
 anotadas ahí, aunque tienen su propio archivo en `sources/` en vez de usar
 el scraper genérico.
 
+## Salud de las fuentes (Tier 1)
+
+Con el mercado flojo, "no llega nada por Telegram" es lo normal, y eso
+tapa a las fuentes rotas: antes, si el sitio de una inmobiliaria cambiaba
+su HTML y el scraper pasaba a devolver 0, el workflow seguía en verde y
+nadie se enteraba. Ahora `health.py` anota por fuente (en `health.json`)
+cuántos anuncios en tus zonas trajo cada corrida o si falló, y manda UN
+aviso por Telegram cuando una fuente:
+- da error en todas las corridas durante ~2h,
+- lleva ~12h en cero habiendo traído cosas antes (24h si nunca trajo nada),
+
+y otro aviso cuando se recupera. Los umbrales son por tiempo, no por
+cantidad de corridas. Si falla algo en el chequeo de salud, la corrida
+principal sigue igual.
+
+## Guardas contra falsos positivos (Tier 2 genérico y JS)
+
+`sources/card_guard.py`: en `generic_agency` y `playwright_agency` se
+ignoran links que van a otro dominio (redes sociales, WhatsApp, blogs) y
+se corta la búsqueda de precio/m² cuando el contenedor es demasiado grande
+para ser una sola tarjeta (>2000 caracteres). Caso que lo motivó:
+fincasfinurba.com, donde links de footer heredaban el precio de toda la
+página.
+
 ## Filtros
 
 - Máximo 1600€/mes, mínimo 50m² (`config.py`)
@@ -81,7 +105,7 @@ se manda a Telegram marcado como "desconocido" en vez de perderse.
 ## Archivos que NO hay que pisar
 
 `seen_listings.json`, `seen_tier2.json`, `seen_broad.json`,
-`sitemap_seen.json`, `discovery_state.json` y `agencies.json` los
+`sitemap_seen.json`, `discovery_state.json`, `health.json` y `agencies.json` los
 actualiza el bot solo en cada corrida (con last_scrape, precios ya
 vistos, fichas de sitemap ya evaluadas, qué tanda de búsquedas sigue,
 etc). Si subís una versión vieja desde tu compu vas a perder ese

@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup
 
 from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
 from sources.zone_match import match_zone, ancestor_texts
+from sources.card_guard import is_same_site, card_text_ok
 
 PRICE_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[.,]\d{3})+|\d{2,6})(?:[.,]\d{1,2})?\s?€')
 M2_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s?m[²2]', re.IGNORECASE)
@@ -43,7 +44,7 @@ def _looks_like_short_term(text: str) -> bool:
     return any(kw in lower for kw in EXCLUDE_KEYWORDS)
 
 
-def _scrape_page(url: str, href_pattern, domain_prefix: str):
+def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None):
     """Devuelve (listings, anchor_count, ok). ok=False si la request falló
     (para distinguir de "0 resultados porque se acabaron las páginas")."""
     listings = []
@@ -62,6 +63,8 @@ def _scrape_page(url: str, href_pattern, domain_prefix: str):
         href = a.get("href")
         if not href:
             continue
+        if domain and not is_same_site(href, domain):
+            continue  # redes sociales, WhatsApp, blogs externos, etc.
         if href.startswith("/"):
             href = domain_prefix.rstrip("/") + href
         if href in seen_urls:
@@ -69,6 +72,8 @@ def _scrape_page(url: str, href_pattern, domain_prefix: str):
 
         text = None
         for candidate in ancestor_texts(a, levels=4):
+            if not card_text_ok(candidate):
+                break  # contenedor gigante (pagina entera), subir mas no ayuda
             if PRICE_RE.search(candidate) and M2_RE.search(candidate):
                 text = candidate
                 break
@@ -122,7 +127,7 @@ def scrape_agency(entry: dict):
         else:
             break
 
-        page_listings, anchor_count, ok = _scrape_page(url, href_pattern, domain_prefix)
+        page_listings, anchor_count, ok = _scrape_page(url, href_pattern, domain_prefix, entry.get("domain"))
         any_ok = any_ok or ok
         if anchor_count == 0:
             break

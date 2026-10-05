@@ -11,6 +11,7 @@ import time
 from config import FOTOCASA_ZONES, SEEN_FILE
 from dedupe import load_seen, save_seen, check_listing, remember
 from filters import passes_filters
+import health
 from notify import send_telegram_message, format_listing_message
 from sources import (
     loca_barcelona, fotocasa, finques_march, finques_bou, aproperties,
@@ -18,45 +19,70 @@ from sources import (
 )
 
 
-def run_source(scrape_fn, zones: dict, all_listings: list):
+def _safe_record(state: dict, alerts: list, source: str, count: int, error: bool):
+    """La salud nunca puede romper la corrida principal."""
+    try:
+        msg = health.record(state, source, count, error=error)
+        if msg:
+            alerts.append(msg)
+    except Exception as e:
+        print(f"[health] {source}: {e}")
+
+
+def run_source(scrape_fn, zones: dict, all_listings: list, source_name: str = None,
+               state: dict = None, alerts: list = None):
+    total, errors = 0, 0
     for zone_name, url in zones.items():
         try:
             found = scrape_fn(zone_name, url)
             print(f"  {zone_name}: {len(found)} anuncios encontrados")
             all_listings.extend(found)
+            total += len(found)
         except Exception as e:
+            errors += 1
             print(f"  [ERROR] {zone_name}: {e}")
         time.sleep(2)
+    if state is not None and source_name:
+        # Error solo si fallaron TODAS las zonas (una zona suelta caida no cuenta).
+        _safe_record(state, alerts, source_name, total, error=(errors == len(zones) and errors > 0))
 
 
-def run_citywide(scrape_fn, source_name: str, all_listings: list):
+def run_citywide(scrape_fn, source_name: str, all_listings: list,
+                 state: dict = None, alerts: list = None):
     """Para scrapers que traen todas las zonas en una sola llamada (piden
     una página citywide y filtran por barrio en el texto), en vez de una
     URL por barrio."""
+    count, error = 0, False
     try:
         found = scrape_fn()
-        print(f"  {source_name}: {len(found)} anuncios encontrados en tus zonas")
+        count = len(found)
+        print(f"  {source_name}: {count} anuncios encontrados en tus zonas")
         all_listings.extend(found)
     except Exception as e:
+        error = True
         print(f"  [ERROR] {source_name}: {e}")
+    if state is not None:
+        _safe_record(state, alerts, source_name, count, error)
     time.sleep(2)
 
 
 def main():
     all_listings = []
+    health_state = health.load_health()
+    health_alerts = []
 
     print("Scrapeando fuentes citywide (long term)...")
-    run_citywide(loca_barcelona.scrape_all_zones, "Loca Barcelona", all_listings)
-    run_citywide(finques_march.scrape_all_zones, "Finques March", all_listings)
-    run_citywide(finques_bou.scrape_all_zones, "Finques Bou", all_listings)
-    run_citywide(aproperties.scrape_all_zones, "aProperties", all_listings)
-    run_citywide(finques_grau.scrape_all_zones, "Finques Grau", all_listings)
-    run_citywide(selekta.scrape_all_zones, "Selekta Properties", all_listings)
-    run_citywide(shbarcelona.scrape_all_zones, "ShBarcelona", all_listings)
-    run_citywide(finques_teixidor.scrape_all_zones, "Finques Teixidor", all_listings)
+    run_citywide(loca_barcelona.scrape_all_zones, "Loca Barcelona", all_listings, health_state, health_alerts)
+    run_citywide(finques_march.scrape_all_zones, "Finques March", all_listings, health_state, health_alerts)
+    run_citywide(finques_bou.scrape_all_zones, "Finques Bou", all_listings, health_state, health_alerts)
+    run_citywide(aproperties.scrape_all_zones, "aProperties", all_listings, health_state, health_alerts)
+    run_citywide(finques_grau.scrape_all_zones, "Finques Grau", all_listings, health_state, health_alerts)
+    run_citywide(selekta.scrape_all_zones, "Selekta Properties", all_listings, health_state, health_alerts)
+    run_citywide(shbarcelona.scrape_all_zones, "ShBarcelona", all_listings, health_state, health_alerts)
+    run_citywide(finques_teixidor.scrape_all_zones, "Finques Teixidor", all_listings, health_state, health_alerts)
 
     print("Scrapeando Fotocasa...")
-    run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings)
+    run_source(fotocasa.scrape_zone, FOTOCASA_ZONES, all_listings, "Fotocasa", health_state, health_alerts)
 
     print(f"\nTotal de anuncios crudos encontrados: {len(all_listings)}")
 
@@ -81,6 +107,12 @@ def main():
         time.sleep(1)
 
     save_seen(SEEN_FILE, seen)
+
+    # Salud por fuente: guardar estado y avisar si alguna lleva mucho en cero o con error.
+    health.save_health(health_state)
+    for msg in health_alerts:
+        send_telegram_message(msg)
+        time.sleep(1)
     print("Listo.")
 
 
