@@ -111,6 +111,50 @@
     "m2": 156.0,
     "price": 970000.0
   },
+  "https://thinkspain.com/es/alquiler-viviendas/10011485": {
+    "m2": 213.0,
+    "price": 6500.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/8532329": {
+    "m2": 42.0,
+    "price": 720.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/8695831": {
+    "m2": 60.0,
+    "price": 3950.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/8697216": {
+    "m2": 120.0,
+    "price": 4700.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/8697568": {
+    "m2": 47.0,
+    "price": 3100.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/9097688": {
+    "m2": 104.0,
+    "price": 2750.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/9616142": {
+    "m2": 150.0,
+    "price": 5500.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/9807449": {
+    "m2": 120.0,
+    "price": 3300.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/9994219": {
+    "m2": 70.0,
+    "price": 2650.0
+  },
+  "https://thinkspain.com/es/alquiler-viviendas/sant-marti-barcelona": {
+    "m2": 150.0,
+    "price": 5500.0
+  },
+  "https://thinkspain.com/es/venta-viviendas/el-parc-i-la-llacuna-del-poblenou-barcelona": {
+    "m2": 150.0,
+    "price": 5500.0
+  },
   "https://wa.me/34616527831": {
     "m2": 62.0,
     "price": 265000.0
