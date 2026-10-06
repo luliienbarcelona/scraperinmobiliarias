@@ -1357,5 +1357,22 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía playwright ((vía Playwright) tiene precio (ej. 100€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "Monika Rüsch",
+    "domain": "monikarusch.com",
+    "rental_url": "https://www.monikarusch.com/results/?id_tipo_operacion=2",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": "-es\\d+\\.html",
+    "domain_prefix": "https://www.monikarusch.com",
+    "max_pages": 1,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada a mano el 2026-10-06 (Luli recibio un mail de ellos). Inmobiliaria de alto standing, asi que probablemente casi todo supere 1600 EUR (el unico alquiler visible al sumarla era una casa a 5.500), pero es barata de monitorear y puede aparecer algo. Misma plataforma que Fincas Gaudi (fichas terminan en -es<ID>.html). HTML con precio y m2 visibles, sin JS. robots.txt revisado: solo bloquea URLs con parametros modo=, od=, dt=, i=, c=; /results/?id_tipo_operacion=2 y las fichas .html estan permitidas. Sin paginacion conocida (max_pages=1): si hay mas alquileres de los que muestra la primera pagina, revisar."
   }
 ]
