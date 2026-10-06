@@ -12,11 +12,62 @@ o "no se admiten mascotas".
 Todo lo demás se manda a Telegram, marcado como "desconocido" en vez de
 descartado en silencio.
 """
+import re
+from urllib.parse import urlparse
+
 from config import (
     MAX_PRICE, MIN_M2, EXCLUDE_KEYWORDS,
     PETS_REJECT_KEYWORDS, PETS_OK_KEYWORDS, LONG_TERM_HINTS,
     NON_HOUSING_KEYWORDS,
 )
+
+
+# Tipos de inmueble que NO son vivienda. Se buscan en la URL porque varios
+# sitios ponen el tipo ahi y no en el texto de la tarjeta (ej. Finques
+# Teixidor: ".../eixample-dret-diputacio-despacho.htm"). Cuidado con los
+# falsos positivos: un piso "con garaje" o "con parking" SI es vivienda, asi
+# que el tipo solo cuenta si es un directorio entero de la URL, si es lo
+# PRIMERO del slug ("garaje-en-alquiler-en-...") o lo ULTIMO ("...-local").
+_NON_HOUSING_TYPES = (
+    "oficina", "oficinas", "despacho", "despachos", "local", "locales",
+    "local-comercial", "locales-comerciales", "garaje", "garajes", "garatge",
+    "garatges", "parking", "parkings", "aparcamiento", "aparcamientos",
+    "trastero", "trasteros", "traster", "trasters", "nave", "naves",
+    "nave-industrial", "almacen", "almacenes", "coworking",
+    "boxplaza-de-garaje", "plaza-de-garaje", "plaza-de-parking",
+)
+
+
+def _url_is_non_housing(url) -> bool:
+    if not url:
+        return False
+    path = urlparse(str(url)).path.lower()
+    segments = [seg for seg in path.split("/") if seg]
+    if not segments:
+        return False
+    *dirs, last = segments
+    if any(seg in _NON_HOUSING_TYPES for seg in dirs):
+        return True
+    slug = re.sub(r"\.(html?|php|cfm|aspx?)$", "", last)
+    for t in _NON_HOUSING_TYPES:
+        if slug == t or slug.startswith(t + "-") or slug.endswith("-" + t):
+            return True
+    return False
+
+
+_NON_HOUSING_TITLE_STARTS = (
+    "oficina", "despacho", "local ", "local-", "locales", "garaje", "garatge",
+    "parking", "trastero", "traster", "nave ", "nave-", "almacen", "almacén",
+    "coworking", "plaza de garaje", "plaza de parking", "plaza de aparcamiento",
+)
+
+
+def _title_starts_non_housing(title) -> bool:
+    """El tipo de inmueble suele ir PRIMERO en el titulo ("Oficina en ...").
+    Solo cuenta al principio: "Piso con despacho" o "Piso con garaje" son
+    viviendas y no deben rechazarse."""
+    t = re.sub(r"^[^a-zA-ZÀ-ÿ]+", "", str(title or "")).lower()
+    return t.startswith(_NON_HOUSING_TITLE_STARTS)
 
 
 def _text_of(listing: dict) -> str:
@@ -28,7 +79,11 @@ def enrich_listing(listing: dict) -> dict:
     solo anota lo que se pudo inferir del texto disponible."""
     text = _text_of(listing)
 
-    listing["is_non_housing"] = any(kw in text for kw in NON_HOUSING_KEYWORDS)
+    listing["is_non_housing"] = (
+        any(kw in text for kw in NON_HOUSING_KEYWORDS)
+        or _url_is_non_housing(listing.get("url"))
+        or _title_starts_non_housing(listing.get("title"))
+    )
 
     listing["pets_rejected"] = any(kw in text for kw in PETS_REJECT_KEYWORDS)
     if listing["pets_rejected"]:

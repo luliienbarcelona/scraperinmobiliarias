@@ -106,6 +106,12 @@ página.
 - Solo alquiler de larga estancia (se descarta lo que dice "temporada",
   "turístico", etc.)
 - Se rechaza solo si dice explícitamente "no se admiten mascotas"
+- Se rechazan oficinas, despachos, locales, garajes, parkings, trasteros,
+  naves y coworkings (`filters.py`): por frases en el texto, por el tipo en
+  la URL (directorio, primer o último tramo del slug, ej.
+  `.../diputacio-despacho.htm`) y por el título cuando arranca con el tipo
+  ("Oficina en..."). Un piso que solo menciona "con garaje" o "con despacho"
+  NO se rechaza.
 
 **Filosofía importante** (`filters.py`): un dato que falta (precio, m²,
 tipo de alquiler, mascotas) nunca es motivo de descarte por sí solo. Solo
