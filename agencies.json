@@ -1374,5 +1374,48 @@
     "last_new_listing": "2026-10-06T07:09:16+00:00",
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-10-06 (Luli recibio un mail de ellos). Inmobiliaria de alto standing, asi que probablemente casi todo supere 1600 EUR (el unico alquiler visible al sumarla era una casa a 5.500), pero es barata de monitorear y puede aparecer algo. Misma plataforma que Fincas Gaudi (fichas terminan en -es<ID>.html). HTML con precio y m2 visibles, sin JS. robots.txt revisado: solo bloquea URLs con parametros modo=, od=, dt=, i=, c=; /results/?id_tipo_operacion=2 y las fichas .html estan permitidas. Sin paginacion conocida (max_pages=1): si hay mas alquileres de los que muestra la primera pagina, revisar."
+  },
+  {
+    "name": "fincasescarre.com",
+    "domain": "fincasescarre.com",
+    "rental_url": "https://fincasescarre.com/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "inmob.es",
+    "domain": "inmob.es",
+    "rental_url": "https://inmob.es/findercasa-camp-de-l-arpa-barcelona-barcelona/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (600 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "coldwellbanker.es",
+    "domain": "coldwellbanker.es",
+    "rental_url": "https://www.coldwellbanker.es/pisos-en-alquiler-en-sagrada-familia-barcelona",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 100€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
   }
 ]
