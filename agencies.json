@@ -1431,5 +1431,19 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (259 fichas) pero ninguna de las 3 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "tempocasa.es",
+    "domain": "tempocasa.es",
+    "rental_url": "https://tempocasa.es/es/agencias-inmobiliaras/barcelona/barcelona/1324-barcellona-clot",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://tempocasa.es/es/agencias-inmobiliaras/barcelona/barcelona/1324-barcellona-clot) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://tempocasa.es/) / sitemap: tiene sitemap (866 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
