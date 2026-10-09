@@ -43,6 +43,24 @@ DISCOVERY_QUERY_TEMPLATES = [
     "pisos en alquiler particular {zone} Barcelona",
     "agencia inmobiliaria pisos alquiler {zone} Barcelona contacto",
 ]
+# Mismas busquedas pero en catalan: muchas inmobiliarias chicas de barrio
+# (ej. Lex Gestio Poblenou) tienen el sitio SOLO en catalan ("pisos en
+# lloguer", "immobiliaria") y las busquedas en castellano no las traen. Se
+# consultan con search_lang="ca" y el nombre del barrio en catalan.
+DISCOVERY_QUERY_TEMPLATES_CA = [
+    "immobiliària {zone} Barcelona lloguer pisos",
+    "pisos de lloguer {zone} Barcelona immobiliària web",
+    "agència immobiliària lloguer pisos {zone} Barcelona contacte",
+]
+
+# Nombre del barrio como se escribe en catalan (config.ZONES esta en
+# castellano y sin tildes). Los que no estan aca se usan tal cual.
+ZONE_NAMES_CA = {
+    "Gracia": "Gràcia",
+    "Sagrada Familia": "Sagrada Família",
+    "Vila Olimpica": "Vila Olímpica",
+}
+
 # OJO: "administració finques X lloguer" (a secas) se sacó: en la práctica
 # trae sobre todo administradores de comunidades de vecinos, que no
 # publican anuncios de alquiler con precio en su web (gestionan edificios,
@@ -66,17 +84,35 @@ DISCOVERY_EXTRA_ZONES = [
 # de Brave (free tier: 2000 consultas/mes): NO hay que recorrer todo este
 # pool en cada corrida, hay que rotar (ver ROTATION_BATCH_SIZE más abajo)
 # para no pasarse del límite gratis.
+# Las de catalan van AL FINAL a proposito: asi las combinaciones en
+# castellano conservan su posicion y el puntero de rotacion que ya esta
+# guardado en discovery_state.json sigue apuntando a lo mismo.
 ALL_QUERY_COMBOS = [
     (zone, template)
     for zone in (ZONES + DISCOVERY_EXTRA_ZONES)
     for template in DISCOVERY_QUERY_TEMPLATES
+] + [
+    (zone, template)
+    for zone in (ZONES + DISCOVERY_EXTRA_ZONES)
+    for template in DISCOVERY_QUERY_TEMPLATES_CA
 ]
+
+
+def _query_lang(template: str) -> str:
+    return "ca" if template in DISCOVERY_QUERY_TEMPLATES_CA else "es"
+
+
+def _build_query(zone: str, template: str):
+    """Devuelve (query, search_lang) para una combinacion (zona, template)."""
+    lang = _query_lang(template)
+    zone_txt = ZONE_NAMES_CA.get(zone, zone) if lang == "ca" else zone
+    return template.format(zone=zone_txt), lang
 
 # Cuántas combinaciones probar POR CORRIDA. Con 24/corrida x 2
 # corridas/día x 30 días = 1440 consultas/mes, deja margen contra el tope
-# de 2000. El pool completo (60 combos con 12 zonas x 5 templates) se
-# termina de recorrer en ~2.5 corridas (~1.25 días), y después arranca de
-# nuevo desde el principio: así cada corrida prueba algo distinto en vez
+# de 2000. El pool completo (96 combos: 12 zonas x 5 templates en
+# castellano + 12 zonas x 3 en catalan) se termina de recorrer en 4
+# corridas (~2 días), y después arranca de nuevo desde el principio: así cada corrida prueba algo distinto en vez
 # de repetir siempre las mismas 21 consultas de antes.
 ROTATION_BATCH_SIZE = 24
 DISCOVERY_STATE_FILE = "discovery_state.json"
@@ -176,14 +212,23 @@ def search_candidate_domains():
     print(f"[discover_agencies] Probando {len(batch)} combinaciones de esta tanda (de {len(ALL_QUERY_COMBOS)} en total)")
 
     for zone, template in batch:
-        query = template.format(zone=zone)
-        params = {"q": query, "count": 10, "country": "es", "search_lang": "es"}
-        try:
-            resp = requests.get(SEARCH_URL, headers=headers, params=params, timeout=20)
-            resp.raise_for_status()
-            data = resp.json()
-        except requests.RequestException as e:
-            print(f"  [ERROR] Brave para '{query}': {e}")
+        query, lang = _build_query(zone, template)
+        data = None
+        for attempt_lang in ([lang, "es"] if lang != "es" else ["es"]):
+            params = {"q": query, "count": 10, "country": "es", "search_lang": attempt_lang}
+            try:
+                resp = requests.get(SEARCH_URL, headers=headers, params=params, timeout=20)
+                if resp.status_code == 422 and attempt_lang != "es":
+                    # Brave no acepto este idioma: reintentar la misma busqueda como "es".
+                    print(f"  [WARN] Brave rechazo search_lang={attempt_lang}, reintento con es")
+                    continue
+                resp.raise_for_status()
+                data = resp.json()
+                break
+            except requests.RequestException as e:
+                print(f"  [ERROR] Brave para '{query}': {e}")
+                break
+        if data is None:
             continue
 
         for item in data.get("web", {}).get("results", []):

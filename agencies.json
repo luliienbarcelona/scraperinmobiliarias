@@ -1445,5 +1445,26 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://tempocasa.es/es/agencias-inmobiliaras/barcelona/barcelona/1324-barcellona-clot) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://tempocasa.es/) / sitemap: tiene sitemap (866 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "Lex Gestió Poblenou",
+    "domain": "lexgestiopoblenou.com",
+    "rental_url": "http://www.lexgestiopoblenou.com/pisos-en-lloguer",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": "^pis-",
+    "domain_prefix": "http://www.lexgestiopoblenou.com",
+    "max_pages": 1,
+    "require_m2": false,
+    "default_zone": "Poblenou",
+    "zone_from_url": true,
+    "skip_text_regex": "\\b(?:LLOGAT|LOCAL|PARKING)\\b",
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada a mano el 2026-10-09 (esta en catalan). Sitio chico, solo http (https redirige a http), sin robots.txt ni sitemap. El listado es HTML con 'Preu: 773€' pero SIN m2 en las tarjetas (require_m2=false: m2 queda desconocido) y los links son relativos sin barra inicial. OJO: el listado mezcla viviendas con LOCAL y PARKING y deja publicadas las ya alquiladas con la etiqueta LLOGAT; skip_text_regex las saltea. Al sumarla: 20 tarjetas, 18 LLOGAT y las 2 libres eran locales, o sea 0 viviendas disponibles hoy; se deja igual porque es barata de monitorear. default_zone=Poblenou cuando ni la tarjeta ni el nombre de la ficha dicen barrio (algunas fichas son de La Verneda, revisar la direccion). Sin paginacion."
   }
 ]

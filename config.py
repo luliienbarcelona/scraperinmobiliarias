@@ -12,6 +12,8 @@ EXCLUDE_KEYWORDS = [
     "short-term", "short term", "temporal", "temporada",
     "per night", "por noche", "vacacional", "turístico", "turistico",
     "leisure", "holiday", "vacation",
+    # catalan
+    "turístic", "turistic", "per nit", "vacances", "estada curta", "curta durada",
 ]
 
 # Frases que indican explícitamente que NO se aceptan mascotas. Si un anuncio
@@ -22,6 +24,9 @@ PETS_REJECT_KEYWORDS = [
     "sin mascotas", "prohibido mascotas", "no pets", "pets not allowed",
     "no animales", "sense mascotes", "no es permeten mascotes",
     "not allowed pets",
+    # catalan (el apostrofo tipografico se normaliza en filters.py)
+    "no s'admeten mascotes", "no s'accepten mascotes", "no admet mascotes",
+    "no mascotes", "prohibit mascotes", "no animals", "no s'admeten animals",
 ]
 
 # Si dice explícitamente que sí se aceptan, lo mostramos en el mensaje en
@@ -29,6 +34,8 @@ PETS_REJECT_KEYWORDS = [
 PETS_OK_KEYWORDS = [
     "se admiten mascotas", "mascotas permitidas", "pet friendly",
     "pets allowed", "admite mascotas", "es permeten mascotes",
+    "s'admeten mascotes", "s'accepten mascotes", "mascotes permeses",
+    "admet mascotes", "accepta mascotes",
 ]
 
 # Frases que indican que el alquiler es de larga estancia (uso para marcar
@@ -39,6 +46,8 @@ LONG_TERM_HINTS = [
     "larga estancia", "larga duracion", "larga duración",
     "vivienda habitual", "long term", "long-term", "arrendamiento habitual",
     "residencial", "uso residencial",
+    "llarga estada", "llarga durada", "habitatge habitual", "ús residencial",
+    "us residencial", "lloguer d'habitatge",
 ]
 
 # Luli busca PISOS para vivir, no locales/oficinas/garajes/trasteros que a
@@ -53,11 +62,21 @@ NON_HOUSING_KEYWORDS = [
     "garaje en alquiler", "plaza de garaje", "alquiler de garaje",
     "alquiler garaje", "parking en alquiler",
     "trastero en alquiler", "alquiler de trastero", "alquiler trastero",
-    # Versiones cortas (sin "en alquiler" ni "alquiler de" adelante), para
-    # sitios que solo ponen el tipo de inmueble como etiqueta corta, tipo
-    # "Garaje - Eixample" en vez de "Garaje en alquiler en Eixample".
-    "garaje", "garatge", "plaza de aparcamiento", "plaza de parking",
-    "trastero", "nave industrial",
+    "plaza de aparcamiento", "plaza de parking",
+    # Catalan
+    "local en lloguer", "lloguer de local", "lloguer local",
+    "oficina en lloguer", "oficines en lloguer", "lloguer d'oficina",
+    "lloguer d´oficina", "lloguer oficina", "despatx en lloguer",
+    "lloguer de despatx", "nau industrial", "lloguer de nau",
+    "garatge en lloguer", "lloguer de garatge", "lloguer garatge",
+    "plaça de garatge", "plaça de pàrquing", "plaça d'aparcament",
+    "pàrquing en lloguer", "parking en lloguer", "traster en lloguer",
+    "lloguer de traster", "lloguer traster",
+    # OJO: palabras sueltas como "garaje", "garatge" o "trastero" se SACARON
+    # (2026-10-09): rechazaban cualquier piso cuya tarjeta dijera "con plaza
+    # de garaje". Los garajes/trasteros reales los atrapan las frases de
+    # arriba, el tipo en la URL y el titulo que arranca con el tipo (ver
+    # filters.py).
 ]
 
 ZONES = [

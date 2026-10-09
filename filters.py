@@ -35,7 +35,16 @@ _NON_HOUSING_TYPES = (
     "trastero", "trasteros", "traster", "trasters", "nave", "naves",
     "nave-industrial", "almacen", "almacenes", "coworking",
     "boxplaza-de-garaje", "plaza-de-garaje", "plaza-de-parking",
+    # catalan
+    "locals", "oficines", "despatx", "despatxos", "aparcament", "aparcaments",
+    "parquing", "magatzem", "magatzems", "nau-industrial", "plaça-de-garatge",
+    "placa-de-garatge",
 )
+
+# Prefijos genericos que algunos sitios le ponen a TODAS las fichas antes del
+# tipo real ("pis-Local-en-lloguer-..." = ficha de un local). Se sacan para ver
+# el tipo verdadero.
+_GENERIC_SLUG_PREFIXES = ("pis-", "piso-", "inmueble-", "immoble-", "ficha-", "anuncio-", "propiedad-")
 
 
 def _url_is_non_housing(url) -> bool:
@@ -49,6 +58,10 @@ def _url_is_non_housing(url) -> bool:
     if any(seg in _NON_HOUSING_TYPES for seg in dirs):
         return True
     slug = re.sub(r"\.(html?|php|cfm|aspx?)$", "", last)
+    for prefix in _GENERIC_SLUG_PREFIXES:
+        if slug.startswith(prefix):
+            slug = slug[len(prefix):]
+            break
     for t in _NON_HOUSING_TYPES:
         if slug == t or slug.startswith(t + "-") or slug.endswith("-" + t):
             return True
@@ -59,6 +72,9 @@ _NON_HOUSING_TITLE_STARTS = (
     "oficina", "despacho", "local ", "local-", "locales", "garaje", "garatge",
     "parking", "trastero", "traster", "nave ", "nave-", "almacen", "almacén",
     "coworking", "plaza de garaje", "plaza de parking", "plaza de aparcamiento",
+    # catalan
+    "despatx", "pàrquing", "parquing", "aparcament", "nau ", "magatzem",
+    "locals", "plaça de garatge", "plaça de pàrquing",
 )
 
 
@@ -71,7 +87,10 @@ def _title_starts_non_housing(title) -> bool:
 
 
 def _text_of(listing: dict) -> str:
-    return " ".join(str(listing.get(k, "")) for k in ("title", "snippet")).lower()
+    text = " ".join(str(listing.get(k, "")) for k in ("title", "snippet")).lower()
+    # Apostrofos tipograficos (’ ´ `) -> ', asi "no s’admeten mascotes" matchea
+    # igual que con apostrofo recto (el catalan los usa mucho).
+    return text.replace("’", "'").replace("´", "'").replace("`", "'")
 
 
 def enrich_listing(listing: dict) -> dict:

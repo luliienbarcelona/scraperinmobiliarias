@@ -28,6 +28,12 @@ Recorre las inmobiliarias del registro (`agencies.json`) marcadas como
 `"scraper_type"` (no hace falta un archivo por sitio):
 - `"generic"` (`sources/generic_agency.py`): lee el listado directo con
   requests + BeautifulSoup, matcheando un patrón de link a cada ficha.
+- Las entradas `"generic"` aceptan opciones por sitio (todas opcionales):
+  `require_m2` (false = aceptar tarjetas sin m², queda "desconocido"),
+  `default_zone` y `zone_from_url` (cuando la tarjeta no dice el barrio),
+  y `skip_text_regex` (saltear tarjetas por etiqueta, ej. "LLOGAT" = ya
+  alquilado, o LOCAL/PARKING que el sitio mezcla con los pisos). Ver
+  Lex Gestió Poblenou en `agencies.json` como ejemplo.
 - `"sitemap"` (`sources/sitemap_agency.py`): para sitios cuyo LISTADO
   carga con JavaScript pero publican un sitemap.xml con la URL de cada
   ficha individual, y esa ficha sí es HTML server-side (caso: Tecnocasa).
@@ -97,6 +103,26 @@ para ser una sola tarjeta (>2000 caracteres). Caso que lo motivó:
 fincasfinurba.com, donde links de footer heredaban el precio de toda la
 página.
 
+## Catalán
+
+Muchas inmobiliarias chicas de barrio tienen el sitio solo en catalán
+("pisos en lloguer"). Para no perderlas:
+- **Discovery** busca también en catalán: 3 frases más ("immobiliària X
+  Barcelona lloguer pisos", etc.) con el barrio escrito en catalán
+  (Gràcia, Sagrada Família...) y `search_lang=ca`; si Brave rechazara el
+  idioma, reintenta esa misma búsqueda en español. El pool pasó a 96
+  combinaciones (se recorre en ~2 días) con el mismo gasto de Brave:
+  siguen siendo 24 consultas por corrida.
+- **Filtros** (`config.py`, `filters.py`): corto plazo (turístic, per nit,
+  vacances...), mascotas (no s'admeten mascotes, con apóstrofo recto o
+  tipográfico), larga estancia (llarga estada, habitatge habitual) y
+  no-vivienda (despatx, local en lloguer, garatge, traster, pàrquing...).
+- Los barrios y los links de navegación en catalán ya se reconocían.
+
+Limitación conocida: el chequeo automático de discovery exige ver m² en
+la página, así que un sitio que solo muestra precio (como Lex Gestió) lo
+descartaría solo y hay que sumarlo a mano con `require_m2: false`.
+
 ## Filtros
 
 - Máximo 1600€/mes, mínimo 50m² (`config.py`)
@@ -111,7 +137,9 @@ página.
   la URL (directorio, primer o último tramo del slug, ej.
   `.../diputacio-despacho.htm`) y por el título cuando arranca con el tipo
   ("Oficina en..."). Un piso que solo menciona "con garaje" o "con despacho"
-  NO se rechaza.
+  NO se rechaza (se sacaron las palabras sueltas "garaje", "garatge" y
+  "trastero" del texto, que rechazaban cualquier piso que las nombrara;
+  quedan las frases como "garaje en alquiler" o "plaza de garaje").
 
 **Filosofía importante** (`filters.py`): un dato que falta (precio, m²,
 tipo de alquiler, mascotas) nunca es motivo de descarte por sí solo. Solo

@@ -16,6 +16,8 @@ seguido queda registrado en agencies.json (failure_count), para poder
 desactivarla más adelante sin perder el resto.
 """
 import re
+from urllib.parse import urljoin, urlparse
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -34,7 +36,7 @@ ROOMS_RE = re.compile(r'(\d+)\s?(?:hab|dormitor|habitaci)', re.IGNORECASE)
 DEFAULT_HREF_RE = re.compile(
     r'^(?!.*(mailto:|tel:|javascript:|^#|/blog|/contacto|/aviso-legal|'
     r'/politica|/cookies|/nosotros|/quienes-somos|/quienes somos|/legal|'
-    r'/privacidad|/aviso|#)).+$',
+    r'/privacidad|/aviso|#|/contacte|/avis|/privacitat|/pol[ií]tica|/qui-som)).+$',
     re.IGNORECASE,
 )
 
@@ -44,9 +46,36 @@ def _looks_like_short_term(text: str) -> bool:
     return any(kw in lower for kw in EXCLUDE_KEYWORDS)
 
 
-def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None):
+def _slug_text(href: str) -> str:
+    """Ultimo tramo de la URL como texto ("pis-Pis-en-lloguer-Pujades-21" ->
+    "pis Pis en lloguer Pujades 21"), para sitios cuyas tarjetas no dicen el
+    barrio pero la URL si (ej. ".../Gran-de-Gracia-14")."""
+    last = urlparse(href).path.rstrip("/").rsplit("/", 1)[-1]
+    return re.sub(r"[-_.]+", " ", last)
+
+
+def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None, opts: dict = None):
     """Devuelve (listings, anchor_count, ok). ok=False si la request falló
-    (para distinguir de "0 resultados porque se acabaron las páginas")."""
+    (para distinguir de "0 resultados porque se acabaron las páginas").
+
+    opts (todas opcionales, vienen de la entrada en agencies.json; sin ellas
+    el comportamiento es el de siempre):
+    - require_m2 (default True): si es False, una tarjeta con precio pero sin
+      m² se acepta igual y m2 queda en None (UNKNOWN != REJECT). Para sitios
+      chicos que no muestran m² en el listado.
+    - default_zone: zona a usar cuando el texto no menciona ninguna de las
+      tuyas (inmobiliarias de barrio, ej. "Lex Gestio Poblenou").
+    - zone_from_url (default False): intentar sacar la zona tambien del
+      nombre de la ficha en la URL antes de caer en default_zone.
+    - skip_text_regex: regex (SENSIBLE a mayusculas) para saltear tarjetas,
+      ej. "\\b(?:LLOGAT|LOCAL|PARKING)\\b" para saltear etiquetas de
+      "ya alquilado", locales y parkings que algunos sitios mezclan.
+    """
+    opts = opts or {}
+    require_m2 = opts.get("require_m2", True)
+    default_zone = opts.get("default_zone")
+    zone_from_url = opts.get("zone_from_url", False)
+    skip_re = re.compile(opts["skip_text_regex"]) if opts.get("skip_text_regex") else None
     listings = []
     try:
         resp = requests.get(url, headers=REQUEST_HEADERS, timeout=20)
@@ -67,6 +96,10 @@ def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None)
             continue  # redes sociales, WhatsApp, blogs externos, etc.
         if href.startswith("/"):
             href = domain_prefix.rstrip("/") + href
+        elif not href.startswith(("http://", "https://", "//")):
+            # Link relativo sin barra inicial ("pis-Pis-en-lloguer-..."): hay
+            # que resolverlo contra la pagina, si no queda una URL rota.
+            href = urljoin(url, href)
         if href in seen_urls:
             continue
 
@@ -74,13 +107,20 @@ def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None)
         for candidate in ancestor_texts(a, levels=4):
             if not card_text_ok(candidate):
                 break  # contenedor gigante (pagina entera), subir mas no ayuda
-            if PRICE_RE.search(candidate) and M2_RE.search(candidate):
+            if PRICE_RE.search(candidate) and (M2_RE.search(candidate) or not require_m2):
                 text = candidate
                 break
         if text is None:
             continue
 
+        if skip_re and skip_re.search(text):
+            continue
+
         zone = match_zone(text)
+        if zone is None and zone_from_url:
+            zone = match_zone(_slug_text(href))
+        if zone is None:
+            zone = default_zone
         if zone is None:
             continue
 
@@ -93,7 +133,7 @@ def _scrape_page(url: str, href_pattern, domain_prefix: str, domain: str = None)
             "zone": zone,
             "title": text[:200],
             "price": float(price_match.group(1).replace(".", "").replace(",", ".")),
-            "m2": float(m2_match.group(1).replace(",", ".")),
+            "m2": float(m2_match.group(1).replace(",", ".")) if m2_match else None,
             "beds": int(rooms_match.group(1)) if rooms_match else None,
             "url": href,
             "source": None,  # lo completa scrape_agency con el nombre del registro
@@ -107,8 +147,9 @@ def scrape_agency(entry: dict):
     """entry viene de agencies.json (scraper_type == "generic"). Necesita
     "rental_url" y "href_pattern" (regex, como string). Opcional:
     "domain_prefix" (default: https://<domain>), "max_pages" (default 1),
-    "page_template" (ej: "{base}?p={page}", para paginar).
-    Devuelve (listings, ok)."""
+    "page_template" (ej: "{base}?p={page}", para paginar), y las opciones
+    require_m2 / default_zone / zone_from_url / skip_text_regex que explica
+    _scrape_page. Devuelve (listings, ok)."""
     href_pattern = re.compile(entry["href_pattern"]) if entry.get("href_pattern") else DEFAULT_HREF_RE
     base_url = entry["rental_url"]
     domain_prefix = entry.get("domain_prefix") or ("https://" + entry["domain"])
@@ -127,7 +168,9 @@ def scrape_agency(entry: dict):
         else:
             break
 
-        page_listings, anchor_count, ok = _scrape_page(url, href_pattern, domain_prefix, entry.get("domain"))
+        page_listings, anchor_count, ok = _scrape_page(
+            url, href_pattern, domain_prefix, entry.get("domain"), entry
+        )
         any_ok = any_ok or ok
         if anchor_count == 0:
             break
