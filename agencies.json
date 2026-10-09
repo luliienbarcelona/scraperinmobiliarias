@@ -1466,5 +1466,48 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-10-09 (esta en catalan). Sitio chico, solo http (https redirige a http), sin robots.txt ni sitemap. El listado es HTML con 'Preu: 773€' pero SIN m2 en las tarjetas (require_m2=false: m2 queda desconocido) y los links son relativos sin barra inicial. OJO: el listado mezcla viviendas con LOCAL y PARKING y deja publicadas las ya alquiladas con la etiqueta LLOGAT; skip_text_regex las saltea. Al sumarla: 20 tarjetas, 18 LLOGAT y las 2 libres eran locales, o sea 0 viviendas disponibles hoy; se deja igual porque es barata de monitorear. default_zone=Poblenou cuando ni la tarjeta ni el nombre de la ficha dicen barrio (algunas fichas son de La Verneda, revisar la direccion). Sin paginacion."
+  },
+  {
+    "name": "borsa.habitatge.barcelona",
+    "domain": "borsa.habitatge.barcelona",
+    "rental_url": "https://borsa.habitatge.barcelona/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "lucasfox.cat",
+    "domain": "lucasfox.cat",
+    "rental_url": "https://www.lucasfox.cat/propietat/espanya/barcelona/barcelona-ciutat/poblenou.html",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 500€) y m² visibles, menciona Poblenou). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "locabarcelona.egluu.com",
+    "domain": "locabarcelona.egluu.com",
+    "rental_url": "https://locabarcelona.egluu.com/ca/lloguer-pisos/el-clot/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='locabarcelona.egluu.com', port=443): Max retries exceeded with url: /ca/lloguer-pisos/el-clot/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1016)')))) / en la home tampoco: no responde (HTTPSConnectionPool(host='locabarcelona.egluu.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1016)')))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_CERT_AUTHORITY_INVALID at https://locabarcelona.egluu.com/ca/lloguer-pisos/el-clot/\nCall log:\n  - navigating to \"https://locabarcelona.egluu.com/ca/lloguer-pisos/el-clot/\", waiting until \"domcontentloaded\"\n)."
   }
 ]
