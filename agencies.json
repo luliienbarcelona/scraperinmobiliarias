@@ -134,7 +134,7 @@
     "module": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:16+00:00",
+    "last_scrape": "2026-10-09T16:26:48+00:00",
     "last_new_listing": "2026-10-04T23:36:47+00:00",
     "failure_count": 0,
     "notes": "Activada 2026-09-30 con scraper de sitemap (sources/sitemap_agency.py). Corregido 2026-10-05 (dos veces): el patron original \"/alquiler/\" dejaba pasar fichas de otras ciudades y de locales/garajes (Tecnocasa es nacional y el sitemap mezcla todo). Un primer arreglo uso \"/cataluna/barcelona/\" que estaba mal (las fichas reales NO llevan segmento de comunidad: son /alquiler/{tipo}/{provincia}/{ciudad}/{id}.html) y dejo la fuente sin matchear nada ~7h. Patron actual: solo tipos de vivienda en provincia barcelona + ciudad barcelona, verificado contra las URLs reales ya vistas en sitemap_seen.json.",
@@ -157,7 +157,7 @@
     "max_pages": 1,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:19+00:00",
+    "last_scrape": "2026-10-09T16:26:52+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "HTML real, barato de scrapear. Auditoría 2026-09-29: siempre devolvió los mismos pisos de lujo en Passeig de Gràcia (8.000-11.000€), nada bajo 1600€ hasta ahora, pero se mantiene en Tier 2 por si cambia su inventario, no cuesta nada monitorearlo cada 15 min."
@@ -396,7 +396,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:22+00:00",
+    "last_scrape": "2026-10-09T16:26:56+00:00",
     "last_new_listing": "2026-09-29T17:38:32+00:00",
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-09-29: discovery la había rechazado por error (miró una URL sin listado en vez de la home). La home sí tiene un piso en Vila Olímpica a 1.588€/81m2, dentro de tu presupuesto. También tiene algo de lujo (Diagonal Mar 2.897€), ojo con eso."
@@ -411,7 +411,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:25+00:00",
+    "last_scrape": "2026-10-09T16:26:59+00:00",
     "last_new_listing": "2026-09-29T17:38:35+00:00",
     "failure_count": 0,
     "notes": "Sumada por discovery el 2026-09-29, confirmada a mano: portal del Col·legi d'Administradors de Finques (varios administradores reales, no un portal tipo Idealista). Pisos reales entre 1000-2850€, ej Balmes 124 a 1000€/75m2, Sagrada Familia también aparece."
@@ -1338,7 +1338,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:28+00:00",
+    "last_scrape": "2026-10-09T16:27:02+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 650€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
@@ -1370,7 +1370,7 @@
     "max_pages": 1,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:30+00:00",
+    "last_scrape": "2026-10-09T16:27:05+00:00",
     "last_new_listing": "2026-10-06T07:09:16+00:00",
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-10-06 (Luli recibio un mail de ellos). Inmobiliaria de alto standing, asi que probablemente casi todo supere 1600 EUR (el unico alquiler visible al sumarla era una casa a 5.500), pero es barata de monitorear y puede aparecer algo. Misma plataforma que Fincas Gaudi (fichas terminan en -es<ID>.html). HTML con precio y m2 visibles, sin JS. robots.txt revisado: solo bloquea URLs con parametros modo=, od=, dt=, i=, c=; /results/?id_tipo_operacion=2 y las fichas .html estan permitidas. Sin paginacion conocida (max_pages=1): si hay mas alquileres de los que muestra la primera pagina, revisar."
@@ -1413,7 +1413,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:33+00:00",
+    "last_scrape": "2026-10-09T16:27:08+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 100€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
@@ -1462,7 +1462,7 @@
     "skip_text_regex": "\\b(?:LLOGAT|LOCAL|PARKING)\\b",
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:37+00:00",
+    "last_scrape": "2026-10-09T16:27:12+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-10-09 (esta en catalan). Sitio chico, solo http (https redirige a http), sin robots.txt ni sitemap. El listado es HTML con 'Preu: 773€' pero SIN m2 en las tarjetas (require_m2=false: m2 queda desconocido) y los links son relativos sin barra inicial. OJO: el listado mezcla viviendas con LOCAL y PARKING y deja publicadas las ya alquiladas con la etiqueta LLOGAT; skip_text_regex las saltea. Al sumarla: 20 tarjetas, 18 LLOGAT y las 2 libres eran locales, o sea 0 viviendas disponibles hoy; se deja igual porque es barata de monitorear. default_zone=Poblenou cuando ni la tarjeta ni el nombre de la ficha dicen barrio (algunas fichas son de La Verneda, revisar la direccion). Sin paginacion."
@@ -1491,7 +1491,7 @@
     "href_pattern": null,
     "tier": 2,
     "active": true,
-    "last_scrape": "2026-10-09T16:08:39+00:00",
+    "last_scrape": "2026-10-09T16:27:16+00:00",
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 500€) y m² visibles, menciona Poblenou). Revisar a mano si conviene afinar el patrón."
