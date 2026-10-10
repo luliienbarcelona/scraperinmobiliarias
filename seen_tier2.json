@@ -7,6 +7,14 @@
     "m2": 62.0,
     "price": 265000.0
   },
+  "https://bcnliving.es/estado/alquiler/": {
+    "m2": 133.0,
+    "price": 1250.0
+  },
+  "https://bcnliving.es/etiqueta/alquilado/": {
+    "m2": 133.0,
+    "price": 3200.0
+  },
   "https://borsalloguers.com/alquiler/barcelona/barcelona/alquiler-espacios-de-despacho-para-compartir-varios-precios-y-tamanos/": {
     "m2": 9.5,
     "price": 400.0
