@@ -1509,5 +1509,34 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='locabarcelona.egluu.com', port=443): Max retries exceeded with url: /ca/lloguer-pisos/el-clot/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1016)')))) / en la home tampoco: no responde (HTTPSConnectionPool(host='locabarcelona.egluu.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1016)')))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_CERT_AUTHORITY_INVALID at https://locabarcelona.egluu.com/ca/lloguer-pisos/el-clot/\nCall log:\n  - navigating to \"https://locabarcelona.egluu.com/ca/lloguer-pisos/el-clot/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "bcnliving.es",
+    "domain": "bcnliving.es",
+    "rental_url": "https://bcnliving.es/",
+    "source_type": "agency",
+    "scraper_type": "sitemap",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía sitemap (sitemap con 136 fichas, 2/5 muestreadas OK (ej. https://bcnliving.es/estado/alquiler/)). Revisar a mano si conviene afinar el patrón.",
+    "sitemap_urls": [
+      "https://bcnliving.es/page-sitemap.xml",
+      "https://bcnliving.es/property-sitemap.xml",
+      "https://bcnliving.es/property_type-sitemap.xml",
+      "https://bcnliving.es/property_status-sitemap.xml",
+      "https://bcnliving.es/property_feature-sitemap.xml",
+      "https://bcnliving.es/property_label-sitemap.xml",
+      "https://bcnliving.es/property_country-sitemap.xml",
+      "https://bcnliving.es/property_state-sitemap.xml",
+      "https://bcnliving.es/property_city-sitemap.xml",
+      "https://bcnliving.es/property_area-sitemap.xml"
+    ],
+    "url_filter_pattern": "alquil|lloguer|rent",
+    "max_new_per_run": 40
   }
 ]
