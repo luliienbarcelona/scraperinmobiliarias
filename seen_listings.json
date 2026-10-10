@@ -35,6 +35,10 @@
     "m2": 9.0,
     "price": 135.0
   },
+  "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-vila-de-gracia-FG1_GA38": {
+    "m2": 10.0,
+    "price": 145.0
+  },
   "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-vila-de-gracia-FG9_GA42": {
     "m2": 11.0,
     "price": 135.0
@@ -46,6 +50,10 @@
   "https://www.finquesgrau.com/es/inmueble/alquiler/local-comercial/local-comercial-en-alquiler-en-sant-antoni-FGL_97": {
     "m2": null,
     "price": null
+  },
+  "https://www.finquesgrau.com/es/inmueble/alquiler/parking-de-moto/parking-de-moto-en-alquiler-en-el-camp-de-larpa-del-clot-3-FG10_GA04A": {
+    "m2": 3.0,
+    "price": 37.0
   },
   "https://www.finquesgrau.com/es/inmueble/alquiler/piso/piso-en-alquiler-en-vallcarca-i-els-penitents-FG73": {
     "m2": null,
