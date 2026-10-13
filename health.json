@@ -12,7 +12,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-13T06:59:16.891083+00:00",
+    "last_nonzero": "2026-10-13T07:21:13.452276+00:00",
     "zero_since": null
   },
   "Finques March": {
@@ -28,7 +28,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-13T06:59:37.820455+00:00",
+    "last_nonzero": "2026-10-13T07:21:39.083274+00:00",
     "zero_since": null
   },
   "Fotocasa": {
@@ -44,7 +44,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-13T06:58:43.822202+00:00",
+    "last_nonzero": "2026-10-13T07:20:59.045052+00:00",
     "zero_since": null
   },
   "Selekta Properties": {
@@ -60,7 +60,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-13T06:59:34.206360+00:00",
+    "last_nonzero": "2026-10-13T07:21:31.749021+00:00",
     "zero_since": null
   },
   "aProperties": {
