@@ -1582,5 +1582,22 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 27€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "Finques Auger 1909",
+    "domain": "fincasauger.com",
+    "rental_url": "https://www.fincasauger.com/properties-1",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": "^/properties-1/[^/]+$",
+    "domain_prefix": "https://www.fincasauger.com",
+    "max_pages": 1,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada a mano el 2026-10-13 (Instagram @finquesauger1909). Sitio Wix, un solo listado /properties-1 con 13 inmuebles, TODOS en venta hoy (0 alquileres), sin pestana de alquiler visible; los precios de venta quedan fuera por el filtro de 1600. Se deja porque es barata de monitorear y si publican un alquiler aparece en el mismo listado. No pude confirmar si Wix entrega las tarjetas en el HTML o por JS: si en Tier 2 sale siempre 0 anchors, pasarla a playwright. robots.txt sin verificar."
   }
 ]
