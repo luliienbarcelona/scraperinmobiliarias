@@ -16,7 +16,7 @@ import re
 from urllib.parse import urlparse
 
 from config import (
-    MAX_PRICE, MIN_M2, EXCLUDE_KEYWORDS,
+    MAX_PRICE, MAX_PRICE_BY_ZONE, MIN_M2, EXCLUDE_KEYWORDS,
     PETS_REJECT_KEYWORDS, PETS_OK_KEYWORDS, LONG_TERM_HINTS,
     NON_HOUSING_KEYWORDS,
 )
@@ -135,7 +135,8 @@ def passes_filters(listing: dict) -> bool:
         return False
 
     price = listing.get("price")
-    if price is not None and price > MAX_PRICE:
+    max_price = MAX_PRICE_BY_ZONE.get(listing.get("zone"), MAX_PRICE)
+    if price is not None and price > max_price:
         return False
 
     m2 = listing.get("m2")

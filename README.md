@@ -125,7 +125,7 @@ descartaría solo y hay que sumarlo a mano con `require_m2: false`.
 
 ## Filtros
 
-- Máximo 1600€/mes, mínimo 50m² (`config.py`)
+- Máximo 1500€/mes (1800€ en Poblenou y Vila Olímpica), mínimo 50m² (`config.py`: `MAX_PRICE`, `MAX_PRICE_BY_ZONE`)
 - Zonas: Eixample (+ Dreta, Esquerra, Fort Pienc, Sant Antoni), Sagrada
   Família, Poblenou (+ Parc i la Llacuna), El Clot (+ Camp de l'Arpa),
   Gràcia, Barceloneta, Vila Olímpica
