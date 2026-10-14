@@ -9,7 +9,7 @@ Actions (gratis, repo público). Tiene tres capas:
 **Tier 1 — rápida (`main.py` vía `run_tier1_loop.py`, cada ~2,5 min)**
 Scrapea directo las inmobiliarias que ya verificamos a mano: hoy son Loca
 Barcelona, Finques March, Finques Bou, aProperties, Finques Grau, Selekta
-Properties, ShBarcelona y Finques Teixidor, más Fotocasa como portal. Cada
+Properties, ShBarcelona, Finques Teixidor y Monapart (por su API JSON, sin navegador), más Fotocasa como portal. Cada
 una tiene su propio archivo en `sources/`.
 
 El cron de GitHub Actions no respeta intervalos cortos (el "cada 5 min"

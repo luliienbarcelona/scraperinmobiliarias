@@ -15,7 +15,7 @@ import health
 from notify import send_telegram_message, format_listing_message
 from sources import (
     loca_barcelona, fotocasa, finques_march, finques_bou, aproperties,
-    finques_grau, selekta, shbarcelona, finques_teixidor,
+    finques_grau, selekta, shbarcelona, finques_teixidor, monapart,
 )
 
 
@@ -80,6 +80,7 @@ def main(include_fotocasa: bool = True):
     run_citywide(selekta.scrape_all_zones, "Selekta Properties", all_listings, health_state, health_alerts)
     run_citywide(shbarcelona.scrape_all_zones, "ShBarcelona", all_listings, health_state, health_alerts)
     run_citywide(finques_teixidor.scrape_all_zones, "Finques Teixidor", all_listings, health_state, health_alerts)
+    run_citywide(monapart.scrape_all_zones, "Monapart", all_listings, health_state, health_alerts)
 
     if include_fotocasa:
         print("Scrapeando Fotocasa...")
