@@ -18,7 +18,7 @@ jobs:
       - name: Sondear
         env:
           PROBE_URLS: ${{ github.event.inputs.urls }}
-        run: python probe_site.py $PROBE_URLS
+        run: python probe_site.py $PROBE_URLS || true
       - name: Guardar resultado
         run: |
           git config user.name "apartment-scraper-bot"
