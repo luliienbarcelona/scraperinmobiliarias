@@ -63,3 +63,18 @@ try:
         b.close()
 except Exception:
     w("error.txt", traceback.format_exc())
+
+try:
+    import json as _j
+    api = "https://thecat.monapart.com/web/estates/rent/f1e4a71a4a65838e436061fbedb1cc42?province=barcelona&_qty=9007199254740991"
+    r = requests.get(api, timeout=30, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
+    d = r.json()
+    def strip(o):
+        if isinstance(o, dict):
+            return {k: strip(v) for k, v in o.items() if k not in ("media", "images", "plans")}
+        if isinstance(o, list):
+            return [strip(v) for v in o]
+        return o
+    w("direct_api.json", f"{r.status_code} {len(r.content)}\n" + _j.dumps(strip(d), ensure_ascii=False))
+except Exception:
+    w("direct_api_error.txt", traceback.format_exc())
