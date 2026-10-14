@@ -1,0 +1,26 @@
+https://www.monapart.com/viviendas/JA0020-6799
+https://www.monapart.com/ | 
+https://floorfy.com/es/tour/2728129 | TOUR VIRTUAL
+javascript:void(0) | Whatsapp
+javascript:void(0) | Telegram
+javascript:void(0) | Twitter
+javascript:void(0) | Facebook
+javascript:void(0) | Pinterest
+javascript:void(0) | Email
+https://www.monapart.com/legal/aviso-legal | Condiciones de uso
+https://www.monapart.com/legal/politica-de-privacidad | Política de Privacidad
+https://www.monapart.com/legal/politica-de-privacidad | Política de Privacidad
+https://www.monapart.com/legal/aviso-legal | Aviso Legal
+https://www.monapart.com/legal/politica-de-cookies | Política de Cookies
+https://www.monapart.com/canal-denuncias | Canal de Denuncias
+
+XHR:
+200 https://thecat.monapart.com/web/provinces/f1e4a71a4a65838e436061fbedb1cc42?type=rent
+200 https://thecat.monapart.com/web/provinces/f1e4a71a4a65838e436061fbedb1cc42?type=buy
+200 https://thecat.monapart.com/web/agent-provinces
+200 https://thecat.monapart.com/web/estate/JA0020-6799/private
+200 https://cdn.plyr.io/3.6.1/plyr.svg
+200 https://noembed.com/embed?url=https://www.youtube.com/watch?v=f_MKn0_x7ts
+200 https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true
+200 https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT
+200 https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json
