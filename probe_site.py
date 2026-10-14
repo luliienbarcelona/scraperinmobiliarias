@@ -27,7 +27,20 @@ try:
                         xhrs.append(f"{r.status} {r.url}")
                         try:
                             if "thecat" in r.url:
-                                w("api_" + str(len(xhrs)) + ".json", r.url + "\n" + r.text()[:60000])
+                                import json as _j
+                                txt = r.text()
+                                try:
+                                    d = _j.loads(txt)
+                                    def strip(o):
+                                        if isinstance(o, dict):
+                                            return {k: strip(v) for k, v in o.items() if k not in ("media", "images", "plans")}
+                                        if isinstance(o, list):
+                                            return [strip(v) for v in o]
+                                        return o
+                                    txt = _j.dumps(strip(d), ensure_ascii=False)
+                                except Exception:
+                                    pass
+                                w("api_" + str(len(xhrs)) + ".json", r.url + "\n" + txt[:400000])
                         except Exception:
                             pass
                 pg.on("response", on_resp)
