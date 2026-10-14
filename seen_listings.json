@@ -262,5 +262,9 @@
   "https://www.locabarcelona.com/en/property/wonderful-studio-fully-renovated/": {
     "m2": null,
     "price": null
+  },
+  "https://www.monapart.com/viviendas/AP0007-6826": {
+    "m2": 72.0,
+    "price": 1253.92
   }
 }
