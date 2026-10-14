@@ -23,12 +23,20 @@ try:
                 pg = b.new_page()
                 xhrs = []
                 def on_resp(r, xhrs=xhrs):
-                    if r.request.resource_type in ("xhr", "fetch"):
+                    if r.request.resource_type in ("xhr", "fetch") and "monapart" in r.url:
                         xhrs.append(f"{r.status} {r.url}")
+                        try:
+                            if "thecat" in r.url:
+                                w("api_" + str(len(xhrs)) + ".json", r.url + "\n" + r.text()[:60000])
+                        except Exception:
+                            pass
                 pg.on("response", on_resp)
                 try:
                     pg.goto(u, wait_until="networkidle", timeout=45000)
                     pg.wait_for_timeout(3000)
+                    for _ in range(6):
+                        pg.mouse.wheel(0, 4000)
+                        pg.wait_for_timeout(1200)
                 except Exception as e:
                     xhrs.append("ERR " + str(e))
                 w(f"page{i}.html", pg.content()[:400000])
