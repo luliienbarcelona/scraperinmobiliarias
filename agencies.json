@@ -1599,5 +1599,19 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada a mano el 2026-10-13 (Instagram @finquesauger1909). Sitio Wix, un solo listado /properties-1 con 13 inmuebles, TODOS en venta hoy (0 alquileres), sin pestana de alquiler visible; los precios de venta quedan fuera por el filtro de 1600. Se deja porque es barata de monitorear y si publican un alquiler aparece en el mismo listado. No pude confirmar si Wix entrega las tarjetas en el HTML o por JS: si en Tier 2 sale siempre 0 anchors, pasarla a playwright. robots.txt sin verificar."
+  },
+  {
+    "name": "finquesmartell.com",
+    "domain": "finquesmartell.com",
+    "rental_url": "https://finquesmartell.com/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (212 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
