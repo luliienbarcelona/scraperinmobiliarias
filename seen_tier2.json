@@ -151,6 +151,30 @@
     "m2": 156.0,
     "price": 970000.0
   },
+  "https://habitatbcn.cat/ca/blog/alquilar-o-comprar-barcelona/": {
+    "m2": 70.0,
+    "price": 363580.0
+  },
+  "https://habitatbcn.cat/ca/blog/precio-alquiler-por-distrito-barcelona/": {
+    "m2": 70.0,
+    "price": 18.0
+  },
+  "https://habitatbcn.cat/en/blog/alquilar-o-comprar-barcelona/": {
+    "m2": 70.0,
+    "price": 363580.0
+  },
+  "https://habitatbcn.cat/en/blog/precio-alquiler-por-distrito-barcelona/": {
+    "m2": 70.0,
+    "price": 18.0
+  },
+  "https://habitatbcn.cat/es/blog/alquilar-o-comprar-barcelona/": {
+    "m2": 70.0,
+    "price": 363580.0
+  },
+  "https://habitatbcn.cat/es/blog/precio-alquiler-por-distrito-barcelona/": {
+    "m2": 70.0,
+    "price": 18.0
+  },
   "https://lucasfox.cat/cercar.html?classid=res_sale&locationid=2ED447B030": {
     "m2": 355.0,
     "price": 9000.0
