@@ -31,6 +31,10 @@
     "m2": 90.0,
     "price": 750.0
   },
+  "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-el-camp-de-larpa-del-clot-3-FG53_GA4": {
+    "m2": 10.0,
+    "price": 96.0
+  },
   "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-la-nova-esquerra-de-leixample-FG149_GA12_M2": {
     "m2": null,
     "price": null
@@ -42,6 +46,10 @@
   "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-vila-de-gracia-FG09_GA15": {
     "m2": 9.0,
     "price": 135.0
+  },
+  "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-vila-de-gracia-FG14_GA33": {
+    "m2": 10.0,
+    "price": 125.0
   },
   "https://www.finquesgrau.com/es/inmueble/alquiler/garaje/garaje-en-alquiler-en-vila-de-gracia-FG1_GA38": {
     "m2": 10.0,
