@@ -1689,5 +1689,39 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (14 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "habitatbcn.cat",
+    "domain": "habitatbcn.cat",
+    "rental_url": "https://habitatbcn.cat/ca/barri/parc-i-la-llacuna-del-poblenou/",
+    "source_type": "agency",
+    "scraper_type": "sitemap",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía sitemap (sitemap con 579 fichas, 2/8 muestreadas OK (ej. https://habitatbcn.cat/es/blog/alquilar-o-comprar-barcelona/)). Revisar a mano si conviene afinar el patrón.",
+    "sitemap_urls": [
+      "https://habitatbcn.cat/sitemap.xml"
+    ],
+    "url_filter_pattern": "alquil|lloguer|rent",
+    "max_new_per_run": 40
+  },
+  {
+    "name": "finquesborrell.es",
+    "domain": "finquesborrell.es",
+    "rental_url": "https://finquesborrell.es/administrador-de-fincas-en-eixample-2/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (27 fichas) pero ninguna de las 6 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
