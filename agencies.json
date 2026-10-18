@@ -1723,5 +1723,19 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (27 fichas) pero ninguna de las 6 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "oirealestate.net",
+    "domain": "oirealestate.net",
+    "rental_url": "https://www.oirealestate.net/agencia-inmobiliaria-poble-nou",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (43134 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
