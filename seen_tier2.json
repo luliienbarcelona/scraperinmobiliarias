@@ -223,6 +223,18 @@
     "m2": 112.0,
     "price": 650000.0
   },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/apartament/bcn72682.html": {
+    "m2": 62.0,
+    "price": 470000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/atic/bcn32500.html": {
+    "m2": 175.0,
+    "price": 3200000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/atic/bcn72451.html": {
+    "m2": 74.0,
+    "price": 725000.0
+  },
   "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/apartament/bcnr40149.html": {
     "m2": 355.0,
     "price": 9000.0
@@ -232,6 +244,18 @@
     "price": 5700.0
   },
   "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/apartament/bcnr72084.html": {
+    "m2": 86.0,
+    "price": 5775.0
+  },
+  "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/apartament/bcnr40149.html": {
+    "m2": 355.0,
+    "price": 9000.0
+  },
+  "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/apartament/bcnr62815.html": {
+    "m2": 87.0,
+    "price": 5700.0
+  },
+  "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/apartament/bcnr72084.html": {
     "m2": 86.0,
     "price": 5775.0
   },
