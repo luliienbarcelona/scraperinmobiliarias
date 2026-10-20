@@ -183,6 +183,22 @@
     "m2": 112.0,
     "price": 650000.0
   },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/eixample/eixample-dreta/apartament/bcn61578.html": {
+    "m2": 204.0,
+    "price": 2245000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/eixample/eixample-dreta/apartament/bcn66733.html": {
+    "m2": 75.0,
+    "price": 529000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/eixample/eixample-dreta/apartament/bcn71606.html": {
+    "m2": 76.0,
+    "price": 694000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/gracia/apartament/bcn66134.html": {
+    "m2": 215.0,
+    "price": 2800000.0
+  },
   "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/apartament/bcn65949.html": {
     "m2": 406.0,
     "price": 1995000.0
@@ -202,6 +218,10 @@
   "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/atic/bcn72451.html": {
     "m2": 74.0,
     "price": 725000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/clot/apartament/bcn69714.html": {
+    "m2": 112.0,
+    "price": 650000.0
   },
   "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/apartament/bcnr40149.html": {
     "m2": 355.0,
