@@ -9,7 +9,12 @@ import os
 MAX_PRICE = 1500          # euros/mes (zonas "normales")
 # Tope mas alto para tus barrios preferidos (decidido 2026-10-13): ahi se
 # acepta hasta 1800 aunque pase del presupuesto base.
-MAX_PRICE_BY_ZONE = {"Poblenou": 1800, "Vila Olimpica": 1800}
+MAX_PRICE_BY_ZONE = {
+    "Poblenou": 1800, "Vila Olimpica": 1800,
+    # Distrito Sant Marti sin barrio claro (ver zone_match.AMBIGUOUS_DISTRICT):
+    # puede ser Poblenou/Vila Olimpica, asi que tiene el tope alto.
+    "Sant Marti (revisar barrio)": 1800,
+}
 MIN_M2 = 50                # metros cuadrados
 EXCLUDE_KEYWORDS = [
     "short-term", "short term", "temporal", "temporada",

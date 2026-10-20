@@ -61,3 +61,20 @@ def ancestor_texts(tag, levels: int = 4):
         texts.append(node.get_text(" ", strip=True))
         node = getattr(node, "parent", None)
     return texts
+
+
+# Distrito que contiene varios de tus barrios (Poblenou, Vila Olimpica, El Clot)
+# pero que algunas webs muestran SOLO como "Sant Marti", sin el barrio. Si la
+# tarjeta no dice cual, no se puede saber: UNKNOWN != REJECT, asi que se deja
+# pasar con esta etiqueta (y config.MAX_PRICE_BY_ZONE le da el tope generoso)
+# para que lo revises vos. Caso real: SH Barcelona, "Marina - Ramon Turro".
+AMBIGUOUS_DISTRICT = "Sant Marti (revisar barrio)"
+
+
+def match_zone_or_district(text: str):
+    zone = match_zone(text)
+    if zone:
+        return zone
+    if "sant marti" in normalize(text):
+        return AMBIGUOUS_DISTRICT
+    return None

@@ -17,7 +17,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from config import REQUEST_HEADERS, EXCLUDE_KEYWORDS
-from sources.zone_match import match_zone, ancestor_texts
+from sources.zone_match import match_zone_or_district, ancestor_texts
 
 URL = "https://shbarcelona.com/es/rent/yearly?city=3430"
 
@@ -62,7 +62,7 @@ def scrape_all_zones():
         if text is None:
             continue
 
-        zone = match_zone(text)
+        zone = match_zone_or_district(text)
         if zone is None:
             continue
 
