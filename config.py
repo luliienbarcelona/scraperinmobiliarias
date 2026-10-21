@@ -6,7 +6,7 @@ Para agregar o quitar una zona, o cambiar el presupuesto, tocá solo este archiv
 import os
 
 # --- Filtros de búsqueda ---
-MAX_PRICE = 1500          # euros/mes (zonas "normales")
+MAX_PRICE = 1600          # euros/mes (zonas "normales")
 # Tope mas alto para tus barrios preferidos (decidido 2026-10-13): ahi se
 # acepta hasta 1800 aunque pase del presupuesto base.
 MAX_PRICE_BY_ZONE = {
