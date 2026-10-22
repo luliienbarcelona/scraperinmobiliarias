@@ -12,7 +12,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-22T00:47:25.502280+00:00",
+    "last_nonzero": "2026-10-22T01:21:26.909648+00:00",
     "zero_since": null
   },
   "Finques March": {
@@ -28,7 +28,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-22T00:47:54.262528+00:00",
+    "last_nonzero": "2026-10-22T01:21:55.191115+00:00",
     "zero_since": null
   },
   "Fotocasa": {
@@ -44,7 +44,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-22T00:47:09.466309+00:00",
+    "last_nonzero": "2026-10-22T01:21:12.549736+00:00",
     "zero_since": null
   },
   "Monapart": {
@@ -68,7 +68,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-10-22T00:47:50.729250+00:00",
+    "last_nonzero": "2026-10-22T01:21:51.773819+00:00",
     "zero_since": null
   },
   "aProperties": {
