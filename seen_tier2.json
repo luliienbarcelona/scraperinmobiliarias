@@ -9,7 +9,7 @@
   },
   "https://atemporalbarcelona.es/barcelona/poblenou/apartamento-de-alquiler-temporal-de-2-habitaciones-dobles-en-barcelona": {
     "m2": 45.0,
-    "price": 1006.0
+    "price": 977.0
   },
   "https://atemporalbarcelona.es/barcelona/poblenou/apartamento-de-alquiler-temporal-de-2-habitaciones-en-poblenou": {
     "m2": 45.0,
@@ -19,13 +19,21 @@
     "m2": 74.0,
     "price": 1280.0
   },
+  "https://atemporalbarcelona.es/barcelona/poblenou/at1936015-luminoso-apartamento-amueblado-en-poblenou": {
+    "m2": 45.0,
+    "price": 1006.0
+  },
   "https://atemporalbarcelona.es/barcelona/poblenou/at2107022-apartamento-de-alquiler-temporal-de-3-habitaciones-en-poblenou-barcelona": {
     "m2": 71.0,
-    "price": 1278.0
+    "price": 1249.0
   },
   "https://atemporalbarcelona.es/barcelona/poblenou/luminoso-apartamento-amueblado-en-poblenou": {
     "m2": 45.0,
     "price": 986.0
+  },
+  "https://atemporalbarcelona.es/barcelona/poblenou/piso-de-alquiler-temporal-de-1-habitacion-en-poble-nou": {
+    "m2": 43.0,
+    "price": 1395.0
   },
   "https://atemporalbarcelona.es/barcelona/poblenou/piso-de-alquiler-temporal-de-2-habitaciones-poblenou": {
     "m2": 45.0,
