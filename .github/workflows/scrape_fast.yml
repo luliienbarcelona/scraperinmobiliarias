@@ -30,5 +30,4 @@ jobs:
           git add seen_listings.json
           [ -f health.json ] && git add health.json || true
           git diff --staged --quiet || git commit -m "Actualizar anuncios vistos [skip ci]"
-          git pull --rebase origin main
-          git push
+          ./push_state.sh

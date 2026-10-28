@@ -30,5 +30,4 @@ jobs:
           git add seen_tier2.json agencies.json
           [ -f sitemap_seen.json ] && git add sitemap_seen.json || true
           git diff --staged --quiet || git commit -m "Actualizar Tier 2 [skip ci]"
-          git pull --rebase origin main
-          git push
+          ./push_state.sh
