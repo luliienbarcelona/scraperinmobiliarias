@@ -1737,5 +1737,68 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (43134 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "urbanacondal.com",
+    "domain": "urbanacondal.com",
+    "rental_url": "http://urbanacondal.com/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no responde (HTTPSConnectionPool(host='urbanacondal.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'urbanacondal.com'. (_ssl.c:1016)\")))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "nolimitsbarceloneta.es",
+    "domain": "nolimitsbarceloneta.es",
+    "rental_url": "https://www.nolimitsbarceloneta.es/",
+    "source_type": "agency",
+    "scraper_type": "sitemap",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía sitemap (sitemap con 9 fichas, 1/2 muestreadas OK (ej. https://www.nolimitsbarceloneta.es/contacto/alquiler/)). Revisar a mano si conviene afinar el patrón.",
+    "sitemap_urls": [
+      "https://www.nolimitsbarceloneta.es/sitemap.xml"
+    ],
+    "url_filter_pattern": "alquil|lloguer|rent",
+    "max_new_per_run": 40
+  },
+  {
+    "name": "shbarcelona.es",
+    "domain": "shbarcelona.es",
+    "rental_url": "https://www.shbarcelona.es/m/alquilar-piso-vila-olimpica-con-terraza-y-piscina-16414",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 1183€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "fincasmeira.es",
+    "domain": "fincasmeira.es",
+    "rental_url": "https://fincasmeira.es/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (28 fichas) pero ninguna de las 3 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
