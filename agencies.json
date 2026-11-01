@@ -1800,5 +1800,48 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (28 fichas) pero ninguna de las 3 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "peraireinmobiliaria.com",
+    "domain": "peraireinmobiliaria.com",
+    "rental_url": "https://www.peraireinmobiliaria.com/",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 950€) y m² visibles, menciona Poblenou). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "nestoria.es",
+    "domain": "nestoria.es",
+    "rental_url": "https://www.nestoria.es/camp-de-larpa/piso/alquiler",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (401 Client Error: Unauthorized for url: https://www.nestoria.es/camp-de-larpa/piso/alquiler) / en la home tampoco: no responde (401 Client Error: Unauthorized for url: https://www.nestoria.es/) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "terrenos.es",
+    "domain": "terrenos.es",
+    "rental_url": "https://terrenos.es/profesionales/inmobiliarias/lacasaagencyclot",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://terrenos.es/profesionales/inmobiliarias/lacasaagencyclot) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://terrenos.es/) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
