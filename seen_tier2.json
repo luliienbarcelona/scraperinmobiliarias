@@ -447,6 +447,26 @@
     "m2": 35.0,
     "price": 750.0
   },
+  "https://www.peraireinmobiliaria.com/inmuebles/": {
+    "m2": 2.0,
+    "price": 510000.0
+  },
+  "https://www.peraireinmobiliaria.com/propiedad-alquiler/inmueble-sin-cedula-de-habitabilidad-con-el-iva-incluido-29889709": {
+    "m2": 2.0,
+    "price": 950.0
+  },
+  "https://www.peraireinmobiliaria.com/propiedad-alquiler/inmueble-sin-cedula-de-habitabilidad-con-el-iva-incluido-29889709/": {
+    "m2": 2.0,
+    "price": 950.0
+  },
+  "https://www.peraireinmobiliaria.com/propiedad/vistas-en-pleno-passeig-sant-joan-29425338": {
+    "m2": 2.0,
+    "price": 410000.0
+  },
+  "https://www.peraireinmobiliaria.com/propiedad/vistas-en-pleno-passeig-sant-joan-29425338/": {
+    "m2": 2.0,
+    "price": 410000.0
+  },
   "https://www.tecnocasa.es/alquiler/local-comercial/barcelona/barcelona/568884.html": {
     "m2": 120.0,
     "price": 900.0
