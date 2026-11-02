@@ -1843,5 +1843,62 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://terrenos.es/profesionales/inmobiliarias/lacasaagencyclot) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://terrenos.es/) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "shbarcelona.cat",
+    "domain": "shbarcelona.cat",
+    "rental_url": "https://www.shbarcelona.cat/barcelona-lloguer/eixample",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic ((vía home) tiene precio (ej. 1500€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "asgestio.es",
+    "domain": "asgestio.es",
+    "rental_url": "https://www.asgestio.es/home/index/lang/cat",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "barcelona26.tecnocasa.es",
+    "domain": "barcelona26.tecnocasa.es",
+    "rental_url": "https://barcelona26.tecnocasa.es/barcelona/novaesquerradeleixample/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='barcelona26.tecnocasa.es', port=443): Max retries exceeded with url: /barcelona/novaesquerradeleixample/ (Caused by NameResolutionError(\"HTTPSConnection(host='barcelona26.tecnocasa.es', port=443): Failed to resolve 'barcelona26.tecnocasa.es' ([Errno -2] Name or service not known)\"))) / en la home tampoco: no responde (HTTPSConnectionPool(host='barcelona26.tecnocasa.es', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='barcelona26.tecnocasa.es', port=443): Failed to resolve 'barcelona26.tecnocasa.es' ([Errno -2] Name or service not known)\"))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_NAME_NOT_RESOLVED at https://barcelona26.tecnocasa.es/barcelona/novaesquerradeleixample/\nCall log:\n  - navigating to \"https://barcelona26.tecnocasa.es/barcelona/novaesquerradeleixample/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "dinmo.es",
+    "domain": "dinmo.es",
+    "rental_url": "https://dinmo.es/ca/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / en la home tampoco: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://dinmo.es/ca/\nCall log:\n  - navigating to \"https://dinmo.es/ca/\", waiting until \"domcontentloaded\"\n)."
   }
 ]
