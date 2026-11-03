@@ -335,6 +335,14 @@
     "m2": 150.0,
     "price": 5500.0
   },
+  "https://vivados.es/ca/agency/best-house-barcelona-sant-gervasi-inmobiliaria/lloguer": {
+    "m2": 60.0,
+    "price": 995.0
+  },
+  "https://vivados.es/ca/agency/spotahome-inmobiliaria-madrid/lloguer": {
+    "m2": 45.0,
+    "price": 1350.0
+  },
   "https://wa.me/34616527831": {
     "m2": 62.0,
     "price": 265000.0
@@ -486,6 +494,30 @@
   "https://www.tecnocasa.es/alquiler/piso/valencia/valencia/532475.html": {
     "m2": 77.0,
     "price": 1000.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/apartment-en-el-poble-sec-sant-antoni-eixample-barcelona-659f9886a2d9667d0a2e0f37.html": {
+    "m2": 45.0,
+    "price": 1350.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/apartment-en-el-poble-sec-sant-antoni-eixample-barcelona-660e95f99036900ed30be97e.html": {
+    "m2": 45.0,
+    "price": 1350.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/apartment-en-sagrada-familia-eixample-barcelona-659f9551a2d9667d0a2e0275.html": {
+    "m2": 50.0,
+    "price": 1700.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/estudi-en-el-poble-sec-sant-antoni-eixample-barcelona-659f9c5ea2d9667d0a2e1d63.html": {
+    "m2": 50.0,
+    "price": 1300.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/pis-en-antiga-esquerra-de-l-eixample-eixample-barcelona-65a0a2a7d089b31c302651b8.html": {
+    "m2": 70.0,
+    "price": 1140.0
+  },
+  "https://www.vivados.es/piso/lloguer-piso/barcelona/barcelona/pis-en-sagrada-familia-eixample-barcelona-65a0a2a2d089b31c30265187.html": {
+    "m2": 60.0,
+    "price": 995.0
   },
   "index.php": {
     "m2": 62.0,
