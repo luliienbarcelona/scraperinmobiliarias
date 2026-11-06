@@ -2043,5 +2043,61 @@
     "last_new_listing": "2026-11-05T17:22:14+00:00",
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 250€) y m² visibles, menciona Gracia). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "finquesfernandez.com",
+    "domain": "finquesfernandez.com",
+    "rental_url": "https://www.finquesfernandez.com/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (31 fichas) pero ninguna de las 4 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "redpisobarcelona.es",
+    "domain": "redpisobarcelona.es",
+    "rental_url": "https://redpisobarcelona.es/contacto/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (53 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "bonfinc.es",
+    "domain": "bonfinc.es",
+    "rental_url": "https://bonfinc.es/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (1000 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "cylex.es",
+    "domain": "cylex.es",
+    "rental_url": "https://www.cylex.es/barcelona/findercasa-camp-de-l'-arpa-14388374.html",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://www.cylex.es/barcelona/findercasa-camp-de-l'-arpa-14388374.html) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://cylex.es/) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
