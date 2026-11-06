@@ -2099,5 +2099,19 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (403 Client Error: Forbidden for url: https://www.cylex.es/barcelona/findercasa-camp-de-l'-arpa-14388374.html) / en la home tampoco: no responde (403 Client Error: Forbidden for url: https://cylex.es/) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "gestorvecinal.com",
+    "domain": "gestorvecinal.com",
+    "rental_url": "https://www.gestorvecinal.com/administrador-fincas-eixample",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / en la home tampoco: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (54 fichas) pero ninguna de las 8 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
