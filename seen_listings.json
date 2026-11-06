@@ -1,4 +1,8 @@
 {
+  "https://shbarcelona.com/es/l/arago-dos-de-maig--17106": {
+    "m2": 64.0,
+    "price": 1352.0
+  },
   "https://shbarcelona.com/es/l/bailen-banyoles-precio-iva--20048": {
     "m2": 57.0,
     "price": 1000.0
@@ -46,6 +50,10 @@
   "https://shbarcelona.com/es/l/sicilia-industria--11018": {
     "m2": 38.0,
     "price": 1113.0
+  },
+  "https://shbarcelona.com/es/l/tamarit-viladomat--16450": {
+    "m2": 29.0,
+    "price": 873.0
   },
   "https://shbarcelona.com/es/l/tres-senyores-torrent-de-les-flor-precio-iva--19812": {
     "m2": 90.0,
