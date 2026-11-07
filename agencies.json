@@ -2127,5 +2127,20 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='fincascarbonell.es', port=443): Read timed out. (read timeout=15)) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
+  },
+  {
+    "name": "fincasolle.com",
+    "domain": "fincasolle.com",
+    "rental_url": "https://fincasolle.com/",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 130€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
   }
 ]
