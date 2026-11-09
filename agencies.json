@@ -2142,5 +2142,33 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 130€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "inmobiliarias.tecnocasa.es",
+    "domain": "inmobiliarias.tecnocasa.es",
+    "rental_url": "https://inmobiliarias.tecnocasa.es/agencia-inmobiliaria/barcelona/gracia/el-camp-den-grassot-i-gracia-nova/vivir-en-gracia-nova-2014-slu/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / en la home tampoco: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://inmobiliarias.tecnocasa.es/agencia-inmobiliaria/barcelona/gracia/el-camp-den-grassot-i-gracia-nova/vivir-en-gracia-nova-2014-slu/\nCall log:\n  - navigating to \"https://inmobiliarias.tecnocasa.es/agencia-inmobiliaria/barcelona/gracia/el-camp-den-grassot-i-gracia-nova/vivir-en-gracia-nova-2014-slu/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "fincaservice.es",
+    "domain": "fincaservice.es",
+    "rental_url": "https://fincaservice.es/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no se ve ningún m² en el HTML crudo (puede ser JS, o no tiene listado en esta página) / sitemap: tiene sitemap (3 fichas) pero ninguna de las 3 muestreadas tiene precio+m2+zona en HTML crudo (puede ser JS también en la ficha) / Playwright: ni renderizando con navegador aparece ningún m² (puede que este sí necesite login, o que el listado esté vacío)."
   }
 ]
