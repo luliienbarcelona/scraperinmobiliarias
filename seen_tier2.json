@@ -207,6 +207,14 @@
     "m2": 2.0,
     "price": 1563.0
   },
+  "https://fincasolle.com/propiedad/piso-en-eixample-calle-rossello-7837104": {
+    "m2": 2.0,
+    "price": 488000.0
+  },
+  "https://fincasolle.com/propiedad/piso-en-eixample-calle-rossello-7837104/": {
+    "m2": 2.0,
+    "price": 488000.0
+  },
   "https://habitatbcn.cat/ca/blog/alquilar-o-comprar-barcelona/": {
     "m2": 70.0,
     "price": 363580.0
