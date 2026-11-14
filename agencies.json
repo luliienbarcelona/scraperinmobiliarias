@@ -2242,5 +2242,48 @@
     "last_new_listing": "2026-11-13T01:16:41+00:00",
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 870€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "barcelona78.tecnocasa.es",
+    "domain": "barcelona78.tecnocasa.es",
+    "rental_url": "https://barcelona78.tecnocasa.es/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='barcelona78.tecnocasa.es', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='barcelona78.tecnocasa.es', port=443): Failed to resolve 'barcelona78.tecnocasa.es' ([Errno -2] Name or service not known)\"))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_NAME_NOT_RESOLVED at https://barcelona78.tecnocasa.es/\nCall log:\n  - navigating to \"https://barcelona78.tecnocasa.es/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "jilong.es",
+    "domain": "jilong.es",
+    "rental_url": "https://jilong.es/alquiler/piso/barcelona/barcelona/gracia/alquiler-piso-barcelona-barcelona-gracia.html",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 1600€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "fincaspadua.com",
+    "domain": "fincaspadua.com",
+    "rental_url": "https://fincaspadua.com/agencia-inmobiliaria-gracia-barcelona/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / en la home tampoco: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://fincaspadua.com/agencia-inmobiliaria-gracia-barcelona/\nCall log:\n  - navigating to \"https://fincaspadua.com/agencia-inmobiliaria-gracia-barcelona/\", waiting until \"domcontentloaded\"\n)."
   }
 ]
