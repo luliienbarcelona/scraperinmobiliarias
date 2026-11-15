@@ -2285,5 +2285,20 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Descartada por discovery automático: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / en la home tampoco: no responde (('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://fincaspadua.com/agencia-inmobiliaria-gracia-barcelona/\nCall log:\n  - navigating to \"https://fincaspadua.com/agencia-inmobiliaria-gracia-barcelona/\", waiting until \"domcontentloaded\"\n)."
+  },
+  {
+    "name": "doncasa.com",
+    "domain": "doncasa.com",
+    "rental_url": "https://doncasa.com/inmobiliaria-el-clot-barcelona/",
+    "source_type": "agency",
+    "scraper_type": "generic",
+    "module": null,
+    "href_pattern": null,
+    "tier": 2,
+    "active": true,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 120€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
   }
 ]
