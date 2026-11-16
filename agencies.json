@@ -2300,5 +2300,19 @@
     "last_new_listing": null,
     "failure_count": 0,
     "notes": "Sumada automáticamente por discovery, vía generic (tiene precio (ej. 120€) y m² visibles, menciona Eixample). Revisar a mano si conviene afinar el patrón."
+  },
+  {
+    "name": "granmanzana.es",
+    "domain": "granmanzana.es",
+    "rental_url": "https://www.granmanzana.es/alquiler/viviendas/barcelona/sant-marti/el-camp-de-l-arpa-del-clot/",
+    "source_type": "agency",
+    "scraper_type": null,
+    "module": null,
+    "tier": null,
+    "active": false,
+    "last_scrape": null,
+    "last_new_listing": null,
+    "failure_count": 0,
+    "notes": "Descartada por discovery automático: no responde (HTTPSConnectionPool(host='www.granmanzana.es', port=443): Max retries exceeded with url: /alquiler/viviendas/barcelona/sant-marti/el-camp-de-l-arpa-del-clot/ (Caused by NewConnectionError(\"HTTPSConnection(host='www.granmanzana.es', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))) / en la home tampoco: no responde (HTTPSConnectionPool(host='granmanzana.es', port=443): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPSConnection(host='granmanzana.es', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))) / sitemap: no se encontró sitemap con URLs de ficha (ni en robots.txt ni en rutas comunes) / Playwright: Playwright no pudo renderizar (Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://www.granmanzana.es/alquiler/viviendas/barcelona/sant-marti/el-camp-de-l-arpa-del-clot/\", waiting until \"domcontentloaded\"\n)."
   }
 ]
