@@ -183,6 +183,14 @@
     "m2": 2.0,
     "price": 930.0
   },
+  "https://fincasolle.com/propiedad-alquiler/piso-en-poble-nou-con-zona-comunitaria-con-piscina--1851227": {
+    "m2": 2.0,
+    "price": 1081.0
+  },
+  "https://fincasolle.com/propiedad-alquiler/piso-en-poble-nou-con-zona-comunitaria-con-piscina--1851227/": {
+    "m2": 2.0,
+    "price": 1081.0
+  },
   "https://fincasolle.com/propiedad-alquiler/piso-en-sant-antoni-de-vilamajor-18255771": {
     "m2": 2.0,
     "price": 856.0
@@ -326,6 +334,10 @@
   "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/atic/bcn72451.html": {
     "m2": 74.0,
     "price": 700000.0
+  },
+  "https://lucasfox.cat/comprar-propietat/espanya/barcelona/barcelona-ciutat/sant-marti/poblenou/casa-villa/bcn56297.html": {
+    "m2": 174.0,
+    "price": 1850000.0
   },
   "https://lucasfox.cat/llogar-propietat/espanya/barcelona/barcelona-ciutat/poblenou/apartament/bcnr40149.html": {
     "m2": 355.0,
