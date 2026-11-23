@@ -363,6 +363,10 @@
     "m2": 86.0,
     "price": 5775.0
   },
+  "https://nitia.es/etiqueta/publicado/": {
+    "m2": 69.0,
+    "price": 380000.0
+  },
   "https://nitia.es/etiqueta/vendido/": {
     "m2": 87.0,
     "price": 465000.0
@@ -378,6 +382,10 @@
   "https://nitia.es/propiedad/camp-de-larpa-del-clot/": {
     "m2": 91.0,
     "price": 340000.0
+  },
+  "https://nitia.es/propiedad/piso-venta-valencia-eixample-69m2/": {
+    "m2": 69.0,
+    "price": 380000.0
   },
   "https://orribarcelona.com/ca/viviendas/00770": {
     "m2": 63.0,
