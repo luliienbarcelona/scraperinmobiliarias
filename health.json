@@ -28,7 +28,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-11-28T03:41:45.119364+00:00",
+    "last_nonzero": "2026-11-28T12:23:36.335045+00:00",
     "zero_since": null
   },
   "Fotocasa": {
@@ -44,7 +44,7 @@
     "alerted_zero": false,
     "error_since": null,
     "ever_nonzero": true,
-    "last_nonzero": "2026-11-28T03:41:18.727483+00:00",
+    "last_nonzero": "2026-11-28T12:22:52.848374+00:00",
     "zero_since": null
   },
   "Monapart": {
